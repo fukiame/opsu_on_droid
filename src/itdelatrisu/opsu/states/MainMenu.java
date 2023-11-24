@@ -330,6 +330,7 @@ public class MainMenu extends BasicGameState {
 
 		reset();
 		musicInfoProgress.setTime(0);
+		UI.getNotificationManager().sendNotification("Your skin doesn't have a skin.ini file! Rolling back to default...", Colors.RED_HIGHLIGHT);
 	}
 
 	@Override
