@@ -385,13 +385,6 @@ public enum GameImage {
 			return img.getScaledCopy((h * 0.45f) / img.getHeight() * Options.getMobileUIScale(0.5f));
 		}
 	},
-	SEARCH_BG ("search-background", "png|jpg", false, true) {
-		@Override
-		protected Image process_sub(Image img, int w, int h) {
-			img.setAlpha(0.8f);
-			return img.getScaledCopy(w, h);
-		}
-	},
 	DELETE ("delete", "png", false, false) {
 		/*
 		@Override
