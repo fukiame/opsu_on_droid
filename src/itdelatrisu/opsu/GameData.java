@@ -1462,7 +1462,12 @@ public class GameData {
 				SoundController.playSound(SoundEffect.COMBOBREAK);
 		}
 		combo = 0;
-		if (GameMod.SUDDEN_DEATH.isActive())
+		if (GameMod.SUDDEN_DEATH.isActive() || GameMod.PERFECT.isActive())
+			health.setHealth(0f);
+	}
+
+	private void detectPerfectStreak() {
+		if (GameMod.PERFECT.isActive())
 			health.setHealth(0f);
 	}
 
@@ -1639,10 +1644,12 @@ public class GameData {
 		case HIT_100:
 			hitValue = 100;
 			comboEnd |= 1;
+			detectPerfectStreak();
 			break;
 		case HIT_50:
 			hitValue = 50;
 			comboEnd |= 2;
+			detectPerfectStreak();
 			break;
 		case HIT_MISS:
 			hitValue = 0;
