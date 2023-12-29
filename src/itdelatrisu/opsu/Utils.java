@@ -95,7 +95,7 @@ import org.newdawn.slick.util.Log;
 import com.sun.jna.platform.FileUtils;
 */
 
-import net.lingala.zip4j.core.ZipFile;
+import net.lingala.zip4j.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
 
 /**
@@ -746,8 +746,8 @@ public class Utils {
 		*/
 		return null;
 	}
-	
-	
+
+
 	/**
 	 * to get around not having java.nio.file.Files;
 	 * //http://stackoverflow.com/questions/4770004/how-to-move-rename-file-from-internal-app-storage-to-external-storage-on-android
