@@ -25,11 +25,16 @@ The images included in opsu! belong to their respective authors.
 * sherrie__fay
 * kouyang
 * teinecthel
+* Attribo555 - "- mini;pur ft. Jimikawa -"
+* Spoo - "- {S}  5WC 2023"
+* alivemaster - "- Selyui -"
+* Skyline - KuroAoi 1.0 "SL"
 * Teddy Kelley - https://unsplash.com/photos/weuWmzv7xnU (main menu background)
 * User icons designed by Freepik - https://www.freepik.com/
 	* https://www.freepik.com/free-vector/flat-lovely-animal-avatar-collection_845660.htm
 	* https://www.freepik.com/free-vector/wild-and-marine-animal-collection_845661.htm
 * Font Awesome by Dave Gandy - http://fontawesome.io
+* Papirus icon theme - [GitHub](https://github.com/PapirusDevelopmentTeam/papirus-icon-theme)
 
 Projects
 --------
@@ -41,6 +46,6 @@ The following projects were referenced in the initial creation of opsu!:
 
 Theme Song
 ----------
-Rainbows - Kevin MacLeod (incompetech.com)  
-Licensed under Creative Commons: By Attribution 3.0 License  
+Rainbows - Kevin MacLeod (incompetech.com)
+Licensed under Creative Commons: By Attribution 3.0 License
 http://creativecommons.org/licenses/by/3.0/
