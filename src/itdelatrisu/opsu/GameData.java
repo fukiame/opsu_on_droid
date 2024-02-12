@@ -630,7 +630,7 @@ public class GameData {
 
 		// score percentage
 		int symbolHeight = getScoreSymbolImage('0').getHeight();
-		if (!relaxAutoPilot)
+		if (!relaxAutoPilot && !GameMod.CINEMA.isActive())
 			drawSymbolString(
 					String.format((scorePercentDisplay < 10f) ? "0%.2f%%" : "%.2f%%", scorePercentDisplay),
 					width - margin, symbolHeight, 0.60f, alpha, true);
@@ -691,7 +691,7 @@ public class GameData {
 		}
 
 		// hit error bar
-		if (Options.isHitErrorBarEnabled() && !hitErrorList.isEmpty()) {
+		if (Options.isHitErrorBarEnabled() && !hitErrorList.isEmpty() && !GameMod.CINEMA.isActive()) {
 			// fade out with last tick
 			float hitErrorAlpha = 1f;
 			Color white = new Color(Color.white);
@@ -757,7 +757,7 @@ public class GameData {
 		}
 
 
-		if (!breakPeriod && !relaxAutoPilot) {
+		if (!breakPeriod && !relaxAutoPilot && !GameMod.CINEMA.isActive()) {
 			// scorebar
 			float healthRatio = health.getHealthDisplay() / 100f;
 			if (firstObject) {  // gradually move ki before map begins
@@ -811,7 +811,7 @@ public class GameData {
 					drawSymbolString(comboString, margin, height - margin - (symbolHeight * comboPopBack), comboPopBack, 0.5f * alpha, false);
 				drawSymbolString(comboString, margin, height - margin - (symbolHeight * comboPopFront), comboPopFront, alpha, false);
 			}
-		} else if (!relaxAutoPilot) {
+		} else if (!relaxAutoPilot && !GameMod.CINEMA.isActive()) {
 			// grade
 			Grade grade = getGrade();
 			if (grade != Grade.NULL) {
@@ -832,6 +832,7 @@ public class GameData {
 	 */
 	public void drawRankingElements(Graphics g, Beatmap beatmap, int time) {
 		// TODO Version 2 skins
+		if (GameMod.CINEMA.isActive()) return;
 		float symbolTextScale = 1.15f;
 		float uiScale = GameImage.getUIscale();
 		Image zeroImg = getScoreSymbolImage('0');
@@ -1217,11 +1218,17 @@ public class GameData {
 
 	/**
 	 * Returns false if health is zero.
-	 * If "No Fail" or "Auto" mods are active, this will always return true.
+	 * If No Fail, Auto or Cinema mods are active, this will always return true.
 	 */
 	public boolean isAlive() {
-		return (health.getHealth() > 0f || GameMod.NO_FAIL.isActive() || GameMod.AUTO.isActive() ||
-		        GameMod.RELAX.isActive() || GameMod.AUTOPILOT.isActive());
+		return (
+			health.getHealth() > 0f
+			|| GameMod.NO_FAIL.isActive()
+			|| GameMod.AUTO.isActive()
+			|| GameMod.CINEMA.isActive()
+			|| GameMod.RELAX.isActive()
+			|| GameMod.AUTOPILOT.isActive()
+		);
 	}
 
 	/**
@@ -1709,7 +1716,7 @@ public class GameData {
 		if (hitResult == HIT_MISS && (GameMod.RELAX.isActive() || GameMod.AUTOPILOT.isActive()))
 			return;  // "relax" and "autopilot" mods: hide misses
 
-		boolean hideResult = (hitResult == HIT_300 || hitResult == HIT_300G || hitResult == HIT_300K) && !Options.isPerfectHitBurstEnabled();
+		boolean hideResult = ((hitResult == HIT_300 || hitResult == HIT_300G || hitResult == HIT_300K) && !Options.isPerfectHitBurstEnabled())|| GameMod.CINEMA.isActive();
 		hitResultList.add(new HitObjectResult(time, hitResult, x, y, color, hitResultType, curve, expand, hideResult));
 	}
 
@@ -1754,7 +1761,7 @@ public class GameData {
 		sd.perfect = (comboMax == fullObjectCount);
 		sd.mods = GameMod.getModState();
 		sd.replayString = (replay == null) ? null : replay.getReplayFilename();
-		sd.playerName = GameMod.AUTO.isActive() ?
+		sd.playerName = (GameMod.AUTO.isActive() || GameMod.CINEMA.isActive()) ?
 			UserList.AUTO_USER_NAME : UserList.get().getCurrentUser().getName();
 		return sd;
 	}

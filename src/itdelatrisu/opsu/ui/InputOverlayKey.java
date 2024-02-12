@@ -20,6 +20,7 @@ package itdelatrisu.opsu.ui;
 
 import fluddokt.opsu.fake.*;
 
+import itdelatrisu.opsu.GameMod;
 import itdelatrisu.opsu.options.Options;
 
 /*
@@ -86,6 +87,7 @@ public class InputOverlayKey {
 	 * @param delta the delta interval since the last call
 	 */
 	public void update(int keystates, boolean countkeys, int delta) {
+		if (GameMod.CINEMA.isActive()) return;
 		boolean wasdown = down;
 		down = (keystates & targetKey) == targetKey && (keystates & ignoredKey) == 0;
 		if (!wasdown && down) {
@@ -107,6 +109,7 @@ public class InputOverlayKey {
 	 * @param baseImage the key image
 	 */
 	public void render(Graphics g, int x, int y, Image baseImage) {
+		if (GameMod.CINEMA.isActive()) return;
 		g.pushTransform();
 		float scale = 1f;
 		if (downtime > 0) {
