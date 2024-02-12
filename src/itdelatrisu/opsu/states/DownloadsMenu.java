@@ -242,7 +242,7 @@ public class DownloadsMenu extends BasicGameState {
 					focusResult = -1;
 					startResultPos.setPosition(0);
 					if (nodes == null)
-						searchResultString = "An error occurred with server "+server.getName()+". Try another server";
+						searchResultString = "No results found or an internal error occurred. See log for details.";
 					else {
 						if (query.isEmpty())
 							searchResultString = "Type to search!";
