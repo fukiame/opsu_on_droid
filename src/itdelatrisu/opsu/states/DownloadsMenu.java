@@ -36,10 +36,8 @@ import itdelatrisu.opsu.beatmap.OszUnpacker;
 import itdelatrisu.opsu.downloads.Download;
 import itdelatrisu.opsu.downloads.DownloadList;
 import itdelatrisu.opsu.downloads.DownloadNode;
-import itdelatrisu.opsu.downloads.servers.BloodcatServer;
 import itdelatrisu.opsu.downloads.servers.DownloadServer;
 import itdelatrisu.opsu.downloads.servers.HexideServer;
-import itdelatrisu.opsu.downloads.servers.MnetworkServer;
 import itdelatrisu.opsu.downloads.servers.RippleServer;
 import itdelatrisu.opsu.options.Options;
 import itdelatrisu.opsu.ui.Colors;
@@ -95,9 +93,7 @@ public class DownloadsMenu extends BasicGameState {
 	/** Available beatmap download servers. */
 	private static final DownloadServer[] SERVERS = {
 		new RippleServer(),
-		new MnetworkServer(),
-		new HexideServer(),
-		new BloodcatServer(),
+		new HexideServer()
 	};
 
 	/** The current list of search results. */
@@ -322,22 +318,22 @@ public class DownloadsMenu extends BasicGameState {
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
-		
+
 		/*
 		 Title <FONT_LARGE>
 		 [search] [buttons] <FONT_MEDIUM>
 		 Type to search  <FONT_BOLD>
 		 << Page # >> <FONT_BOLD>
-		 
+
 		 */
 		this.game = game;
 		this.input = container.getInput();
 
 		int width = container.getWidth();
 		int height = container.getHeight();
-		
+
 		titleY = height * 0.03f;//Utils.FONT_LARGE.getLineHeight();
-		
+
 		float baseX = width * 0.024f;
 		/*
 		float searchY = (height * 0.04f) + Fonts.LARGE.getLineHeight();
@@ -364,7 +360,7 @@ public class DownloadsMenu extends BasicGameState {
 		Image prevImg = GameImage.MUSIC_PREVIOUS.getImage();
 		Image nextImg = GameImage.MUSIC_NEXT.getImage();
 		pageButtonY = searchResultY  + Fonts.BOLD.getLineHeight() ;
-		
+
 		prevPage = new MenuButton(prevImg, baseX + prevImg.getWidth() / 2f,
 				pageButtonY + prevImg.getHeight() / 4);
 		nextPage = new MenuButton(nextImg, baseX + pageButtonWidth - nextImg.getWidth() / 2f,
@@ -466,7 +462,7 @@ public class DownloadsMenu extends BasicGameState {
 
 		// title
 		Fonts.LARGE.drawString(width * 0.024f, titleY, "Download Beatmaps!", Color.white);
-		
+
 		// search
 		g.setColor(Color.white);
 		g.setLineWidth(2f);

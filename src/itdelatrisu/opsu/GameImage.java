@@ -31,6 +31,7 @@ import java.util.List;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.util.Log;
 import org.newdawn.slick.util.ResourceLoader;
 */
 /**
@@ -839,7 +840,7 @@ public enum GameImage {
 							img = img.getScaledCopy(0.5f);
 						list.add(img);
 					} catch (SlickException e) {
-						ErrorHandler.error(String.format("Failed to set image '%s'.", name), null, false);
+						Log.error(String.format("Failed to set image '%s'.", name), e);
 						break;
 					}
 				}
@@ -865,7 +866,7 @@ public enum GameImage {
 						img = img.getScaledCopy(0.5f);
 					return img;
 				} catch (SlickException e) {
-					ErrorHandler.error(String.format("Failed to set image '%s'.", filename), null, false);
+						Log.error(String.format("Failed to set image '%s'.", name), e);
 				}
 			}
 		}

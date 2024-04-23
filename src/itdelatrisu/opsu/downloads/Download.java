@@ -184,7 +184,7 @@ public class Download {
 	/*
 	public String getLocalPath() { return (rename != null) ? rename : localPath; }
 	 */
-	
+
 	/**
 	 * Sets the download listener.
 	 * @param listener the listener to set
@@ -298,7 +298,7 @@ public class Download {
 					status = Status.DOWNLOADING;
 					updateReadSoFar();
 					long bytesRead = 0;
-					
+
 					try {
 						while(status == Status.DOWNLOADING && bytesRead < contentLength){
 							long readed = foschannel.transferFrom(rbc, bytesRead, Math.min(8192, contentLength-bytesRead));
@@ -313,7 +313,7 @@ public class Download {
 								listener.error();
 						}
 					}
-					
+
 					if (status == Status.DOWNLOADING) {
 						// check if the entire file was received
 						if (bytesRead < contentLength) {
@@ -496,7 +496,7 @@ public class Download {
 					}
 				} catch (Exception e) {
 					status = Status.ERROR;
-					ErrorHandler.error("Failed to cancel download.", e, true);
+					ErrorHandler.notify("Failed to cancel download.", e);
 				}
 			}
 		}.start();
