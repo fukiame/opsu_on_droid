@@ -50,6 +50,8 @@ import org.newdawn.slick.gui.AbstractComponent;
 import org.newdawn.slick.gui.GUIContext;
 import org.newdawn.slick.gui.TextField;
 
+import com.sun.jna.platform.unix.solaris.Kstat2.Kstat2NV.UNION.StringsArr;
+
 /**
  * Options overlay.
  *
@@ -276,6 +278,9 @@ public class OptionsOverlay extends AbstractComponent {
 		COLOR_NAV_FILTERED = new Color(37, 37, 37),
 		COLOR_NAV_INACTIVE = new Color(153, 153, 153),
 		COLOR_NAV_FILTERED_HOVERED = new Color(58, 58, 58);
+
+	private static String
+		RESTART = t("restart");
 
 	// game-related variables
 	private GameContainer container;
@@ -1211,7 +1216,7 @@ public class OptionsOverlay extends AbstractComponent {
 				// show restart button?
 				if (oldValue != hoverOption.getBooleanValue() && hoverOption.isRestartRequired()) {
 					showRestartButton = true;
-					UI.getNotificationManager().sendBarNotification(t("Restart to apply changes."));
+					UI.getNotificationManager().sendBarNotification(RESTART);
 				}
 			} else if (hoverOption.getItemList() != null) {
 				SoundController.playSound(SoundEffect.MENUCLICK);

@@ -111,10 +111,10 @@ public class Options {
 	public static final File TEMP_DIR = new File(CACHE_DIR, "Temp/");
 
 	/** Main font file name. */
-	public static final String FONT_MAIN = "Exo2-Regular.ttf";
+	public static final String FONT_MAIN = "DroidSansFallback.ttf";
 
 	/** Bold font file name. */
-	public static final String FONT_BOLD = "Exo2-Bold.ttf";
+	public static final String FONT_BOLD = "DroidSansFallback.ttf";
 
 	/** CJK font file name. */
 	public static final String FONT_CJK = "DroidSansFallback.ttf";

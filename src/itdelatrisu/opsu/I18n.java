@@ -20,9 +20,8 @@ package itdelatrisu.opsu;
 
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.Locale;
+import java.util.MissingResourceException;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
@@ -34,19 +33,18 @@ import java.util.ResourceBundle;
 public class I18n {
 	static private Properties prop;
 	static private Boolean locap = false;
+	static private ResourceBundle rb = null;
 
 	static private void LocaleInit() {
-		/*
+
 		Locale loc = Locale.getDefault();
-		String lang = loc.getLanguage();
-		String co = loc.getCountry();
-		String fname = "i18n/" + lang + "_" + co + ".properties";
-		prop = new Properties();
-		try{
-			InputStream inputStream = I18n.class.getClassLoader().getResourceAsStream(fname);
-			prop.load(inputStream);
+		// String lang = loc.getLanguage();
+		// String co = loc.getCountry();
+		try {
+			rb = ResourceBundle.getBundle("strings", loc);
+		} catch (MissingResourceException e) {
+			return;
 		}
-		catch (IOException e) {} */
 		locap = true;
 	};
 
@@ -59,11 +57,12 @@ public class I18n {
 	static final public String t(String str) {
 		if (!locap)
 			LocaleInit();
-		return str;
-		// if (prop == null)
-		// 	return str;
-		// return prop.getProperty(str);
-		// return locres.getString(str);
-		// return GettextResource.gettext(locres, str);
+		if (rb == null)
+			return str;
+		try{
+			return rb.getString(str);
+		} catch (MissingResourceException e){
+			return str;
+		}
 	}
 }

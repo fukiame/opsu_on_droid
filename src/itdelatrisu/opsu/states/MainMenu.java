@@ -175,6 +175,10 @@ public class MainMenu extends BasicGameState {
 	private Input input;
 	private final int state;
 
+	// Strings.
+	private String MAP_AVAIL = t("map-avail");
+	private String TIME = t("time");
+
 	public MainMenu(int state) {
 		this.state = state;
 	}
@@ -469,10 +473,13 @@ public class MainMenu extends BasicGameState {
 		float oldWhiteAlpha = Colors.WHITE_FADE.a;
 		Colors.WHITE_FADE.a = textAlpha;
 		float marginX = UserButton.getWidth() + 8, topMarginY = 4;
-		Fonts.MEDIUM.drawString(marginX, topMarginY,
+		/*Fonts.MEDIUM.drawString(marginX, topMarginY,
 			String.format(t("You have %d beatmaps available!"), BeatmapSetList.get().getMapCount()),
 			Colors.WHITE_FADE
-		);
+		);*/
+		Fonts.MEDIUM.drawString(marginX, topMarginY,
+				String.format(MAP_AVAIL, BeatmapSetList.get().getMapCount()),
+				Colors.WHITE_FADE);
 		float lineHeight = Fonts.MEDIUM.getLineHeight() * 0.925f;
 		Fonts.MEDIUM.drawString(marginX, topMarginY + lineHeight,
 			String.format(t("%s has been running for %s."),
@@ -482,8 +489,8 @@ public class MainMenu extends BasicGameState {
 		);
 		lineHeight += Fonts.MEDIUM.getLineHeight() * 0.925f;
 		Fonts.MEDIUM.drawString(marginX, topMarginY + lineHeight,
-			String.format(t("It is currently %s."),
-				new SimpleDateFormat("h:mm a").format(new Date())),
+			String.format(TIME,
+				new SimpleDateFormat("HH:mm").format(new Date())),
 			Colors.WHITE_FADE
 		);
 		Colors.WHITE_FADE.a = oldWhiteAlpha;

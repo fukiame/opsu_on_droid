@@ -56,6 +56,8 @@ import org.newdawn.slick.opengl.renderer.Renderer;
 import org.newdawn.slick.opengl.renderer.SGL;
 import org.newdawn.slick.util.ResourceLoader;
 
+import itdelatrisu.opsu.ui.Fonts;
+
 /**
  * A Slick bitmap font that can display unicode glyphs from a TrueTypeFont.
  *
@@ -645,6 +647,12 @@ public class UnicodeFont implements org.newdawn.slick.Font {
 
 	@Override
 	public void drawString (float x, float y, String text, Color col) {
+		// TODO: This is bounded to be cleaned up later.
+		Fonts.loadGlyphs(Fonts.MEDIUM, text);
+		Fonts.loadGlyphs(Fonts.DEFAULT, text);
+		Fonts.loadGlyphs(Fonts.BOLD, text);
+		Fonts.loadGlyphs(Fonts.LARGE, text);
+		Fonts.loadGlyphs(Fonts.XLARGE, text);
 		drawString(x, y, text, col, 0, text.length());
 	}
 
