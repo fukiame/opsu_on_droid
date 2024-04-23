@@ -18,9 +18,6 @@
 
 package itdelatrisu.opsu;
 
-import itdelatrisu.opsu.options.Options;
-import itdelatrisu.opsu.ui.Fonts;
-
 import static itdelatrisu.opsu.I18n.t;
 
 import java.io.File;
@@ -30,7 +27,11 @@ import java.util.List;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.util.Log;
 import org.newdawn.slick.util.ResourceLoader;
+
+import itdelatrisu.opsu.options.Options;
+import itdelatrisu.opsu.ui.Fonts;
 
 /**
  * Game images.
@@ -775,7 +776,7 @@ public enum GameImage {
 							img = img.getScaledCopy(0.5f);
 						list.add(img);
 					} catch (SlickException e) {
-						ErrorHandler.error(String.format(t("Failed to set image '%s'."), name), null, false);
+						Log.error(String.format("Failed to set image '%s'.", name), e);
 						break;
 					}
 				}
@@ -801,7 +802,7 @@ public enum GameImage {
 						img = img.getScaledCopy(0.5f);
 					return img;
 				} catch (SlickException e) {
-					ErrorHandler.error(String.format(t("Failed to set image '%s'."), filename), null, false);
+					Log.error(String.format("Failed to set image '%s'.", name), e);
 				}
 			}
 		}

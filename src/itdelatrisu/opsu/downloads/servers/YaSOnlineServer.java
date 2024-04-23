@@ -17,12 +17,6 @@
  */
 package itdelatrisu.opsu.downloads.servers;
 
-import itdelatrisu.opsu.ErrorHandler;
-import itdelatrisu.opsu.Utils;
-import itdelatrisu.opsu.downloads.DownloadNode;
-
-import static itdelatrisu.opsu.I18n.t;
-
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
@@ -38,6 +32,10 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.newdawn.slick.util.Log;
+
+import itdelatrisu.opsu.Utils;
+import itdelatrisu.opsu.downloads.DownloadNode;
+import itdelatrisu.opsu.ui.UI;
 
 /**
  * Download server: http://osu.yas-online.net/
@@ -120,7 +118,8 @@ public class YaSOnlineServer extends DownloadServer {
 			String downloadLink = item.getString("downloadLink");
 			return String.format(DOWNLOAD_FETCH_URL, downloadLink);
 		} catch (MalformedURLException | UnsupportedEncodingException e) {
-			ErrorHandler.error(String.format(t("Problem retrieving download URL for beatmap '%d'."), beatmapSetID), e, true);
+			UI.getNotificationManager().sendBarNotification("Failed get the download URL for the beatmap.");
+			Log.error(String.format("Problem retrieving download URL for beatmap '%d'.", beatmapSetID), e);
 			return null;
 		} finally {
 			Utils.setSSLCertValidation(true);
@@ -192,7 +191,8 @@ public class YaSOnlineServer extends DownloadServer {
 			else
 				this.totalResults = maxServerID;
 		} catch (MalformedURLException | UnsupportedEncodingException e) {
-			ErrorHandler.error(String.format("Problem loading result list for query '%s'.", query), e, true);
+			UI.getNotificationManager().sendBarNotification("Failed to load the result list.");
+			Log.error(String.format("Problem loading result list for query '%s'.", query), e);
 		} catch (JSONException e) {
 			Log.error(e);
 		} finally {

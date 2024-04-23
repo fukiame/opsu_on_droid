@@ -18,12 +18,6 @@
 
 package itdelatrisu.opsu.downloads.servers;
 
-import itdelatrisu.opsu.ErrorHandler;
-import itdelatrisu.opsu.Utils;
-import itdelatrisu.opsu.downloads.DownloadNode;
-
-import static itdelatrisu.opsu.I18n.t;
-
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
@@ -40,6 +34,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.newdawn.slick.util.Log;
+
+import itdelatrisu.opsu.Utils;
+import itdelatrisu.opsu.downloads.DownloadNode;
+import itdelatrisu.opsu.ui.UI;
 
 /**
  * Download server: http://loli.al/
@@ -127,7 +125,8 @@ public class OsuMirrorServer extends DownloadServer {
 			else
 				this.totalResults = maxServerID;
 		} catch (MalformedURLException | UnsupportedEncodingException e) {
-			ErrorHandler.error(String.format(t("Problem loading result list for query '%s'."), query), e, true);
+			UI.getNotificationManager().sendBarNotification("Failed to load the result list.");
+			Log.error(String.format("Problem loading result list for query '%s'.", query), e);
 		} catch (JSONException e) {
 			Log.error(e);
 		}

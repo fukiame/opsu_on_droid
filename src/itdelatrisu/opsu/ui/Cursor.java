@@ -18,17 +18,6 @@
 
 package itdelatrisu.opsu.ui;
 
-import itdelatrisu.opsu.ErrorHandler;
-import itdelatrisu.opsu.GameImage;
-import itdelatrisu.opsu.GameMod;
-import itdelatrisu.opsu.Opsu;
-import itdelatrisu.opsu.Utils;
-import itdelatrisu.opsu.options.Options;
-import itdelatrisu.opsu.skins.Skin;
-import itdelatrisu.opsu.ui.animations.AnimationEquation;
-
-import static itdelatrisu.opsu.I18n.t;
-
 import java.awt.Point;
 import java.nio.IntBuffer;
 import java.util.LinkedList;
@@ -40,6 +29,15 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.util.Log;
+
+import itdelatrisu.opsu.GameImage;
+import itdelatrisu.opsu.GameMod;
+import itdelatrisu.opsu.Opsu;
+import itdelatrisu.opsu.Utils;
+import itdelatrisu.opsu.options.Options;
+import itdelatrisu.opsu.skins.Skin;
+import itdelatrisu.opsu.ui.animations.AnimationEquation;
 
 /**
  * Updates and draws the cursor.
@@ -90,7 +88,7 @@ public class Cursor {
 			IntBuffer tmp = BufferUtils.createIntBuffer(min * min);
 			emptyCursor = new org.lwjgl.input.Cursor(min, min, min/2, min/2, 1, tmp, null);
 		} catch (LWJGLException e) {
-			ErrorHandler.error(t("Failed to create hidden cursor."), e, true);
+			Log.error("Failed to create hidden cursor.", e);
 		}
 	}
 
@@ -324,7 +322,7 @@ public class Cursor {
 			try {
 				container.setMouseCursor(emptyCursor, 0, 0);
 			} catch (SlickException e) {
-				ErrorHandler.error(t("Failed to hide the cursor."), e, true);
+				Log.error("Failed to hide the cursor.", e);
 			}
 		}
 	}

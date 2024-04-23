@@ -18,9 +18,9 @@
 
 package itdelatrisu.opsu.downloads.servers;
 
-import itdelatrisu.opsu.ErrorHandler;
 import itdelatrisu.opsu.Utils;
 import itdelatrisu.opsu.downloads.DownloadNode;
+import itdelatrisu.opsu.ui.UI;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -101,7 +101,8 @@ public class BloodcatServer extends DownloadServer {
 				resultCount++;
 			this.totalResults = resultCount;
 		} catch (MalformedURLException | UnsupportedEncodingException e) {
-			ErrorHandler.error(String.format("Problem loading result list for query '%s'.", query), e, true);
+			UI.getNotificationManager().sendBarNotification("Failed to load the result list.");
+			Log.error(String.format("Problem loading result list for query '%s'.", query), e);
 		} catch (JSONException e) {
 			Log.error(e);
 		}

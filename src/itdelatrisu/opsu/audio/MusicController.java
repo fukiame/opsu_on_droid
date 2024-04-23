@@ -18,14 +18,6 @@
 
 package itdelatrisu.opsu.audio;
 
-import itdelatrisu.opsu.ErrorHandler;
-import itdelatrisu.opsu.Utils;
-import itdelatrisu.opsu.beatmap.Beatmap;
-import itdelatrisu.opsu.beatmap.BeatmapParser;
-import itdelatrisu.opsu.beatmap.TimingPoint;
-import itdelatrisu.opsu.options.Options;
-import itdelatrisu.opsu.ui.UI;
-
 import static itdelatrisu.opsu.I18n.t;
 
 import java.io.File;
@@ -47,8 +39,17 @@ import org.newdawn.slick.MusicListener;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.openal.Audio;
 import org.newdawn.slick.openal.SoundStore;
+import org.newdawn.slick.util.Log;
 import org.newdawn.slick.util.ResourceLoader;
 import org.tritonus.share.sampled.file.TAudioFileFormat;
+
+import itdelatrisu.opsu.ErrorHandler;
+import itdelatrisu.opsu.Utils;
+import itdelatrisu.opsu.beatmap.Beatmap;
+import itdelatrisu.opsu.beatmap.BeatmapParser;
+import itdelatrisu.opsu.beatmap.TimingPoint;
+import itdelatrisu.opsu.options.Options;
+import itdelatrisu.opsu.ui.UI;
 
 /**
  * Controller for all music.
@@ -168,7 +169,8 @@ public class MusicController {
 			});
 			playAt(position, loop);
 		} catch (Exception e) {
-			ErrorHandler.error(String.format(t("Could not play track '%s'."), file.getName()), e, false);
+			UI.getNotificationManager().sendBarNotification(String.format(t("Could not play track '%s'."), file.getName()));
+			Log.error(String.format("Could not play track '%s'.", file.getName()), e);
 		}
 	}
 

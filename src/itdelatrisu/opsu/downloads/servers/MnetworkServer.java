@@ -18,12 +18,6 @@
 
 package itdelatrisu.opsu.downloads.servers;
 
-import itdelatrisu.opsu.ErrorHandler;
-import itdelatrisu.opsu.Utils;
-import itdelatrisu.opsu.downloads.DownloadNode;
-
-import static itdelatrisu.opsu.I18n.t;
-
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
@@ -36,6 +30,10 @@ import java.util.regex.Pattern;
 
 import org.json.JSONException;
 import org.newdawn.slick.util.Log;
+
+import itdelatrisu.opsu.Utils;
+import itdelatrisu.opsu.downloads.DownloadNode;
+import itdelatrisu.opsu.ui.UI;
 
 /**
  * Download server: http://osu.uu.gl/
@@ -125,7 +123,8 @@ public class MnetworkServer extends DownloadServer {
 			// store total result count
 			this.totalResults = nodes.length;
 		} catch (MalformedURLException | UnsupportedEncodingException e) {
-			ErrorHandler.error(String.format(t("Problem loading result list for query '%s'."), query), e, true);
+			UI.getNotificationManager().sendBarNotification("Failed to load the result list.");
+			Log.error(String.format("Problem loading result list for query '%s'.", query), e);
 		} catch (JSONException e) {
 			Log.error(e);
 		}

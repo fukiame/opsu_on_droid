@@ -1051,7 +1051,8 @@ public class DownloadsMenu extends BasicGameState {
 						node.getTitle(), importText
 					));
 				} catch (IOException | URISyntaxException e) {
-					ErrorHandler.error(t("Failed to launch browser."), e, true);
+					UI.getNotificationManager().sendNotification(t("Failed to launch browser."));
+					Log.error("Failed to launch browser.", e);
 				}
 			} else {
 				// browse not supported: copy URL instead
