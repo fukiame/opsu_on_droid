@@ -299,10 +299,8 @@ public class Options {
 				themeString = s;
 				Beatmap beatmap = getThemeBeatmap();
 				if (beatmap == null) {
-					themeString = oldThemeString;
-					Log.warn(String.format("The theme song string [%s] is malformed.", s));
+					Log.warn(String.format("The theme song data is invaild.", s));
 				} else if (!beatmap.audioFilename.isFile() && !ResourceLoader.resourceExists(beatmap.audioFilename.getName())) {
-					themeString = oldThemeString;
 					Log.warn(String.format("Cannot find theme song [%s].", beatmap.audioFilename.getAbsolutePath()));
 				}
 			}
@@ -317,7 +315,7 @@ public class Options {
 					new TimingPoint(s);
 					themeTimingPoint = s;
 				} catch (Exception e) {
-					Log.warn(String.format("The theme song timing point [%s] is malformed.", s));
+					Log.warn(String.format("The theme song timing point is invaild.", s));
 				}
 			}
 		},
@@ -1655,6 +1653,14 @@ public class Options {
 	 */
 	public static File getFFmpegLocation() { return FFmpegPath; }
 
+
+	public static File getThemeSong() {
+		File audio = new File(BEATMAP_DIR, "theme.mp3");
+		if (!audio.isFile())
+			return null;
+		return audio;
+	}
+
 	/**
 	 * Returns a dummy Beatmap containing the theme song.
 	 * @return the theme song beatmap, or {@code null} if the theme string is malformed
@@ -1665,7 +1671,9 @@ public class Options {
 			return null;
 
 		Beatmap beatmap = new Beatmap(null);
-		beatmap.audioFilename = new File(tokens[0]);
+		File cusau = getThemeSong();
+		if (cusau != null) beatmap.audioFilename = cusau;
+		else beatmap.audioFilename = new File(tokens[0]);
 		beatmap.title = tokens[1];
 		beatmap.artist = tokens[2];
 		try {
