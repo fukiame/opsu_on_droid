@@ -243,7 +243,7 @@ public class Updater {
 			s = Utils.readDataFromUrl(new URL(OpsuConstants.VERSION_REMOTE));
 		} catch (UnknownHostException e) {
 			Log.warn(String.format(
-				t("Check for updates failed. Please check your internet connection, or your connection to %s."),
+				"Check for updates failed. Please check your internet connection, or your connection to %s.",
 				OpsuConstants.VERSION_REMOTE)
 			);
 		}
