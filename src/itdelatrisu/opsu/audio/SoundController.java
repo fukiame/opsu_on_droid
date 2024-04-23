@@ -18,15 +18,6 @@
 
 package itdelatrisu.opsu.audio;
 
-import itdelatrisu.opsu.ErrorHandler;
-import itdelatrisu.opsu.audio.HitSound.SampleSet;
-import itdelatrisu.opsu.beatmap.HitObject;
-import itdelatrisu.opsu.downloads.Download;
-import itdelatrisu.opsu.downloads.Download.DownloadListener;
-import itdelatrisu.opsu.options.Options;
-import itdelatrisu.opsu.ui.NotificationManager.NotificationListener;
-import itdelatrisu.opsu.ui.UI;
-
 import static itdelatrisu.opsu.I18n.t;
 
 import java.awt.Desktop;
@@ -49,6 +40,15 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.util.Log;
 import org.newdawn.slick.util.ResourceLoader;
 
+import itdelatrisu.opsu.ErrorHandler;
+import itdelatrisu.opsu.audio.HitSound.SampleSet;
+import itdelatrisu.opsu.beatmap.HitObject;
+import itdelatrisu.opsu.downloads.Download;
+import itdelatrisu.opsu.downloads.Download.DownloadListener;
+import itdelatrisu.opsu.options.Options;
+import itdelatrisu.opsu.ui.NotificationManager.NotificationListener;
+import itdelatrisu.opsu.ui.UI;
+
 /**
  * Controller for all (non-music) sound components.
  * Note: Uses Java Sound because OpenAL lags too much for accurate hit sounds.
@@ -58,6 +58,7 @@ public class SoundController {
 	public interface SoundComponent {
 		/**
 		 * Returns the Clip associated with the sound component.
+		 *
 		 * @return the Clip
 		 */
 		public MultiClip getClip();
@@ -79,10 +80,12 @@ public class SoundController {
 	private static int currentFileIndex = -1;
 
 	// This class should not be instantiated.
-	private SoundController() {}
+	private SoundController() {
+	}
 
 	/**
 	 * Loads and returns a Clip from a resource.
+	 *
 	 * @param ref the resource name
 	 * @return the loaded and opened clip
 	 */
@@ -104,19 +107,22 @@ public class SoundController {
 			ErrorHandler.error(String.format(t("Invalid data found on audio file '%s'."), ref), e, true);
 			return null;
 		} catch (Exception e) {
-			ErrorHandler.error(String.format(t("Failed to load audio file '%s'."), ref), e, true);
+			UI.getNotificationManager().sendNotification(String.format(t("Failed to load audio file '%s'."), ref),
+					Color.red);
+			Log.error(String.format("Failed to load audio file '%s'.", ref), e);
 			return null;
 		}
 	}
 
 	/**
 	 * Loads and returns a Clip from an audio input stream.
-	 * @param ref the resource name
+	 *
+	 * @param ref     the resource name
 	 * @param audioIn the audio input stream
 	 * @return the loaded and opened clip
 	 */
 	private static MultiClip loadClip(String ref, AudioInputStream audioIn)
-		throws IOException, LineUnavailableException {
+			throws IOException, LineUnavailableException {
 		AudioFormat format = audioIn.getFormat();
 		String encoding = format.getEncoding().toString();
 		if (encoding.startsWith("MPEG")) {
@@ -131,8 +137,8 @@ public class SoundController {
 			// Currently there's no way to decode GSM in WAV containers in Java.
 			// http://www.jsresources.org/faq_audio.html#gsm_in_wav
 			Log.warn(
-				t("Failed to load audio file.\nJava cannot decode GSM in WAV containers; please re-encode this file to PCM format or remove it:\n") + ref
-			);
+					t("Failed to load audio file.\nJava cannot decode GSM in WAV containers; please re-encode this file to PCM format or remove it:\n")
+							+ ref);
 			return null;
 		}
 		DataLine.Info info = new DataLine.Info(Clip.class, format);
@@ -157,7 +163,7 @@ public class SoundController {
 				formats[i] = newFormat;
 				DataLine.Info newLine = new DataLine.Info(Clip.class, newFormat);
 				if (AudioSystem.isLineSupported(newLine) &&
-				    AudioSystem.isConversionSupported(newFormat, format)) {
+						AudioSystem.isConversionSupported(newFormat, format)) {
 					float score = 1
 							+ (newFormat.getSampleRate() == sampleRate ? 5 : 0)
 							+ (newFormat.getSampleSizeInBits() == format.getSampleSizeInBits() ? 5 : 0)
@@ -195,6 +201,7 @@ public class SoundController {
 	/**
 	 * Returns the sound file name, with extension, by first looking through
 	 * the skins directory and then the default resource locations.
+	 *
 	 * @param filename the base file name
 	 * @return the full file name, or null if no file found
 	 */
@@ -228,15 +235,18 @@ public class SoundController {
 		// menu and game sounds
 		for (SoundEffect s : SoundEffect.values()) {
 			if ((currentFileName = getSoundFileName(s.getFileName())) == null) {
-				ErrorHandler.error(String.format(t("Could not find sound file '%s'."), s.getFileName()), null, false);
+				UI.getNotificationManager().sendNotification(String.format(t("Could not find sound file '%s'."),
+						s.getFileName()),
+						Color.red);
+				Log.error(String.format("Could not find sound file '%s'.", s.getFileName()));
 				continue;
 			}
 			MultiClip newClip = loadClip(currentFileName);
 			if (newClip == null)
 				failedCount++;
-			if (s.getClip() != null) {  // clip previously loaded (e.g. program restart)
+			if (s.getClip() != null) { // clip previously loaded (e.g. program restart)
 				if (newClip != null) {
-					s.getClip().destroy();  // destroy previous clip
+					s.getClip().destroy(); // destroy previous clip
 					s.setClip(newClip);
 				}
 			} else
@@ -255,9 +265,9 @@ public class SoundController {
 				MultiClip newClip = loadClip(currentFileName);
 				if (newClip == null)
 					failedCount++;
-				if (s.getClip(ss) != null) {  // clip previously loaded (e.g. program restart)
+				if (s.getClip(ss) != null) { // clip previously loaded (e.g. program restart)
 					if (newClip != null) {
-						s.getClip(ss).destroy();  // destroy previous clip
+						s.getClip(ss).destroy(); // destroy previous clip
 						s.setClip(ss, newClip);
 					}
 				} else
@@ -281,7 +291,8 @@ public class SoundController {
 					public void click() {
 						try {
 							Desktop.getDesktop().open(Options.LOG_FILE);
-						} catch (Exception e) {}
+						} catch (Exception e) {
+						}
 					}
 				};
 			}
@@ -291,6 +302,7 @@ public class SoundController {
 
 	/**
 	 * Sets the sample volume (modifies the global sample volume).
+	 *
 	 * @param volume the sample volume [0, 1]
 	 */
 	public static void setSampleVolume(float volume) {
@@ -300,12 +312,13 @@ public class SoundController {
 
 	/**
 	 * Plays a sound clip.
-	 * @param clip the Clip to play
-	 * @param volume the volume [0, 1]
+	 *
+	 * @param clip     the Clip to play
+	 * @param volume   the volume [0, 1]
 	 * @param listener the line listener
 	 */
 	private static void playClip(MultiClip clip, float volume, LineListener listener) {
-		if (clip == null)  // clip failed to load properly
+		if (clip == null) // clip failed to load properly
 			return;
 
 		if (volume > 0f && !isMuted) {
@@ -319,6 +332,7 @@ public class SoundController {
 
 	/**
 	 * Plays a sound.
+	 *
 	 * @param s the sound effect
 	 */
 	public static void playSound(SoundComponent s) {
@@ -327,6 +341,7 @@ public class SoundController {
 
 	/**
 	 * Stops playing a sound, if active.
+	 *
 	 * @param s the sound effect
 	 */
 	public static void stopSound(SoundComponent s) {
@@ -336,8 +351,9 @@ public class SoundController {
 
 	/**
 	 * Plays hit sound(s) using a HitObject bitmask.
-	 * @param hitSound the hit sound (bitmask)
-	 * @param sampleSet the sample set
+	 *
+	 * @param hitSound          the hit sound (bitmask)
+	 * @param sampleSet         the sample set
 	 * @param additionSampleSet the 'addition' sample set
 	 */
 	public static void playHitSound(short hitSound, byte sampleSet, byte additionSampleSet) {
@@ -367,6 +383,7 @@ public class SoundController {
 
 	/**
 	 * Plays a hit sound.
+	 *
 	 * @param s the hit sound
 	 */
 	public static void playHitSound(SoundComponent s) {
@@ -375,9 +392,12 @@ public class SoundController {
 
 	/**
 	 * Mutes or unmutes all sounds (hit sounds and sound effects).
+	 *
 	 * @param mute true to mute, false to unmute
 	 */
-	public static void mute(boolean mute) { isMuted = mute; }
+	public static void mute(boolean mute) {
+		isMuted = mute;
+	}
 
 	/**
 	 * Returns the name of the current file being loaded, or null if none.
@@ -388,6 +408,7 @@ public class SoundController {
 
 	/**
 	 * Returns the progress of sound loading, or -1 if not loading.
+	 *
 	 * @return the completion percent [0, 100] or -1
 	 */
 	public static int getLoadingProgress() {
@@ -400,14 +421,15 @@ public class SoundController {
 	/**
 	 * Plays a track from a remote URL.
 	 * If a track is currently playing, it will be stopped.
-	 * @param url the remote URL
+	 *
+	 * @param url      the remote URL
 	 * @param filename the track file name
 	 * @param listener the line listener
 	 * @return true if playing, false otherwise
 	 * @throws SlickException if any error occurred
 	 */
 	public static synchronized boolean playTrack(String url, String filename, LineListener listener)
-		throws SlickException {
+			throws SlickException {
 		// stop previous track
 		stopTrack();
 
@@ -418,12 +440,13 @@ public class SoundController {
 		final File downloadFile = new File(dir, filename);
 		boolean complete;
 		if (downloadFile.isFile()) {
-			complete = true;  // file already downloaded
+			complete = true; // file already downloaded
 		} else {
 			Download download = new Download(url, downloadFile.getAbsolutePath());
 			download.setListener(new DownloadListener() {
 				@Override
-				public void completed() {}
+				public void completed() {
+				}
 
 				@Override
 				public void error() {
@@ -432,7 +455,8 @@ public class SoundController {
 			});
 			try {
 				download.start().join();
-			} catch (InterruptedException e) {}
+			} catch (InterruptedException e) {
+			}
 			complete = (download.getStatus() == Download.Status.COMPLETE);
 		}
 

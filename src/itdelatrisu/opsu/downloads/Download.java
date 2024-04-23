@@ -21,6 +21,7 @@ package itdelatrisu.opsu.downloads;
 import itdelatrisu.opsu.ErrorHandler;
 import itdelatrisu.opsu.Utils;
 import itdelatrisu.opsu.options.Options;
+import itdelatrisu.opsu.ui.UI;
 
 import static itdelatrisu.opsu.I18n.t;
 
@@ -38,6 +39,7 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.Map;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.util.Log;
 
 /**
@@ -459,7 +461,8 @@ public class Download {
 			}
 		} catch (IOException e) {
 			this.status = Status.ERROR;
-			ErrorHandler.error(t("Failed to cancel download."), e, true);
+			UI.getNotificationManager().sendNotification(t("Failed to cancel download."), Color.red);
+			Log.error("Failed to cancel download.", e);
 		}
 	}
 }

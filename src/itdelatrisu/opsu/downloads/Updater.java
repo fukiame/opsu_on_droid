@@ -18,14 +18,6 @@
 
 package itdelatrisu.opsu.downloads;
 
-import itdelatrisu.opsu.ErrorHandler;
-import itdelatrisu.opsu.OpsuConstants;
-import itdelatrisu.opsu.Utils;
-import itdelatrisu.opsu.downloads.Download.DownloadListener;
-import itdelatrisu.opsu.options.Options;
-import itdelatrisu.opsu.ui.Colors;
-import itdelatrisu.opsu.ui.UI;
-
 import static itdelatrisu.opsu.I18n.t;
 
 import java.io.File;
@@ -43,6 +35,13 @@ import org.apache.maven.artifact.versioning.DefaultArtifactVersion;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.util.Log;
 import org.newdawn.slick.util.ResourceLoader;
+
+import itdelatrisu.opsu.OpsuConstants;
+import itdelatrisu.opsu.Utils;
+import itdelatrisu.opsu.downloads.Download.DownloadListener;
+import itdelatrisu.opsu.options.Options;
+import itdelatrisu.opsu.ui.Colors;
+import itdelatrisu.opsu.ui.UI;
 
 /**
  * Handles automatic program updates.
@@ -325,7 +324,8 @@ public class Updater {
 			pb.start();
 		} catch (IOException e) {
 			status = Status.INTERNAL_ERROR;
-			ErrorHandler.error(t("Failed to start new process."), e, true);
+			UI.getNotificationManager().sendNotification(t("Failed to start a new process."), Color.red);
+			Log.error("Failed to start a new process.", e);
 		}
 	}
 }

@@ -180,7 +180,7 @@ public class Opsu extends StateBasedGame {
 					try {
 						Updater.get().checkForUpdates();
 					} catch (Exception e) {
-						Log.warn(t("Check for updates failed."), e);
+						Log.warn("Check for updates failed.", e);
 					}
 				}
 			}.start();
