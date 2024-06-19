@@ -1491,7 +1491,7 @@ public class SongMenu extends BasicGameState {
 			}
 
 			// turn off "auto" mod
-			if (GameMod.AUTO.isActive())
+			if (GameMod.AUTO.isActive() && !Options.isAutoModAlwaysOn())
 				GameMod.AUTO.toggle(false);
 
 			// re-sort (in case play count updated)
