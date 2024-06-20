@@ -382,10 +382,6 @@ public class Options {
 			private String[] itemList = null;
 			private String[] DirList = null;
 
-			@Override
-			public boolean isRestartRequired() { return true; }
-			// <TODO> Can we directly load skins without restart here?
-
 			/** Creates the list of available skins. */
 			private void createSkinList() {
 				File[] dirs = SkinLoader.getSkinDirectories(getSkinRootDir());
@@ -413,9 +409,16 @@ public class Options {
 
 			@Override
 			public void selectItem(int index, GameContainer container) {
-				if (itemList == null)
+				if (itemList == null) {
 					createSkinList();
+				}
+				String OriginalName = Options.getSkin().getName();
 				skinName = itemList[index];
+				if (skinName != OriginalName) {
+					Utils.ChangeNewSkin();
+					// TODO: If skin is changed then reload the skin and UI.
+					return;
+				}
 			}
 
 			@Override
@@ -698,44 +701,44 @@ public class Options {
 		};
 		*/
 		IN_GAME_PAUSE("Enable in-game pause button", "InGamePause", "Displays a pause button during gameplay.", false),
-		MOBILE_UI_SCALING ("UI Scale", "MobileUIScale", "Scales certain UI elements. Requires a restart.", 
+		MOBILE_UI_SCALING ("UI Scale", "MobileUIScale", "Scales certain UI elements. Requires a restart.",
 				(com.badlogic.gdx.Gdx.graphics.getWidth()/com.badlogic.gdx.Gdx.graphics.getPpiX()) <= 6.0f?//screen width less than 6 inches
 						20:
 						10
 				, 5, 25) {
 			@Override
 			public String getValueString() { return (val == 0) ? "Disabled" : String.format("%.1f", val / 10f); }
-			
+
 			@Override
 			public void read(String s) {
 				int i = (int) (Float.parseFloat(s) * 10f);
 				if (i >= 5 && i <= 25)
 					val = i;
 			}
-			
+
 			@Override
 			public String write() { return String.format(Locale.US, "%.1f", val / 10f); }
 		},
-		PLAYFIELDSCALE ("Playfield Scale", "PlayfieldScale", "Scales the playfield. Larger Hitobjects but some may be partially be out of the screen", 
+		PLAYFIELDSCALE ("Playfield Scale", "PlayfieldScale", "Scales the playfield. Larger Hitobjects but some may be partially be out of the screen",
 				(com.badlogic.gdx.Gdx.graphics.getWidth()/com.badlogic.gdx.Gdx.graphics.getPpiX()) <= 6.0f?//screen width less than 6 inches
 						16:
 						10
 				, 10, 20) {
 			@Override
 			public String getValueString() { return (val == 0) ? "Disabled" : String.format("%.1f", val / 10f); }
-			
+
 			@Override
 			public void read(String s) {
 				int i = (int) (Float.parseFloat(s) * 10f);
 				if (i >= 10 && i <= 20)
 					val = i;
 			}
-			
+
 			@Override
 			public String write() { return String.format(Locale.US, "%.1f", val / 10f); }
 		},
 		NEW_SLIDER("Enable New Slider", "NewSlider", "Use the new Slider style.",true),
-		
+
 		SLIDER_QUALITY ("Old Slider Quality", "SliderQuality", "Lower values for better-looking sliders (in the old slider style).", 1, 1, 7){
 			@Override
 			public String getValueString() { return String.format("%d", val); }
@@ -1057,7 +1060,7 @@ public class Options {
 
 	/** Frame limiters. */
 	private static final int[] targetFPS = { 5, 10, 15, 20, 30, 60, 120, 240, -1 /* Unlimited */ };
-	
+
 	/** Index in targetFPS[] array. */
 	private static int targetFPSindex = 0;
 
@@ -1135,7 +1138,7 @@ public class Options {
 	 * @return the offset (in milliseconds)
 	 */
 	public static int getMusicOffset() { return GameOption.MUSIC_OFFSET.getIntegerValue(); }
-	
+
 	/**
 	 * Returns the Render offset time.
 	 * @return the offset (in milliseconds)
@@ -1515,7 +1518,7 @@ public class Options {
 	 * @return {@code true} if valid, {@code false} otherwise
 	 */
 	private static boolean isValidGameKey(int key) {
-		return (key > 0 && 
+		return (key > 0 &&
 		        key != Keyboard.KEY_ESCAPE && key != Keyboard.KEY_SPACE &&
 		        key != Keyboard.KEY_UP && key != Keyboard.KEY_DOWN &&
 		        key != Keyboard.KEY_F7 && key != Keyboard.KEY_F10 && key != Keyboard.KEY_F12);
@@ -1610,14 +1613,14 @@ public class Options {
 			ErrorHandler.error(String.format("Failed to create skins directory at '%s'.", skinRootDir.getAbsolutePath()), null, false);
 		return skinRootDir;
 	}
-	
+
 	public static float getMobileUIScale() { return GameOption.MOBILE_UI_SCALING.getIntegerValue() / 10f; }
 	public static float getPlayfieldScale() { return GameOption.PLAYFIELDSCALE.getIntegerValue() / 10f; }
-	
+
 	public static float getMobileUIScale(float scale) { return 1 + ((Options.getMobileUIScale()-1) * scale); }
-	
+
 	public static float getMobileUIScaleHigh() { return getMobileUIScale()>1? getMobileUIScale() : getMobileUIScale(0.5f); }
-	
+
 	public static int getSliderQuality() { return GameOption.SLIDER_QUALITY.getIntegerValue(); }
 	/**
 	 * Returns whether or not in game pause is enabled.
@@ -1645,7 +1648,7 @@ public class Options {
 			ResourceLoader.addResourceLocation(new FileSystemLocation(skinDir));
 		}
 		ResourceLoader.addResourceLocation(new FileSystemLocation(new File("res/"),true));
-		
+
 		ResourceLoader.addResourceLocation(new ClasspathLocation());
 		ResourceLoader.addResourceLocation(new FileSystemLocation(new File(".")));
 		/*
@@ -1743,7 +1746,7 @@ public class Options {
 		try (BufferedReader in = new BufferedReader(new FileReader(OPTIONS_FILE))) {
 		*/
 		try (BufferedReader in = OPTIONS_FILE.reader(0xfff)){
-			
+
 			String line;
 			while ((line = in.readLine()) != null) {
 				line = line.trim();

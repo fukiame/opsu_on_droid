@@ -124,6 +124,8 @@ public class Utils {
 	// game-related variables
 	private static Input input;
 
+	private static Thread NewSkinLoader;
+
 	// This class should not be instantiated.
 	private Utils() {}
 
@@ -851,4 +853,21 @@ public class Utils {
 		}
 	}
 	*/
+
+	public static void ChangeNewSkin() {
+		NewSkinLoader = new Thread() {
+			@Override
+			public void run() {
+				return;
+			}
+		};
+		// Steps: Load, release & reload
+		NewSkinLoader.start();
+		GameImage.clearReferences();
+		Utils.gc(true);
+		Options.loadSkin();
+		SoundController.init();
+		Utils.gc(true);
+		UI.getNotificationManager().sendNotification("Skin changed.\nSome elements might not be replaced properly, for this please restart the game.", Color.orange);
+	}
 }
