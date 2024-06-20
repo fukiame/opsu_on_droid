@@ -37,7 +37,7 @@ public class OptionGroup {
 			GameOption.SHOW_UNICODE,
 			GameOption.NULL,
 			GameOption.NULL,
-			
+
 		}),
 		/*
 		new OptionGroup("UPDATES", new GameOption[] {
@@ -46,13 +46,13 @@ public class OptionGroup {
 		*/
 		new OptionGroup("Graphics", GameImage.MENU_NAV_GRAPHICS),
 		new OptionGroup("LAYOUT", new GameOption[] {
-				(com.badlogic.gdx.Gdx.app.getType() == ApplicationType.Desktop) ? 
+				(com.badlogic.gdx.Gdx.app.getType() == ApplicationType.Desktop) ?
 						GameOption.SCREEN_RESOLUTION : GameOption.NULL,
-				
+
 			//GameOption.FULLSCREEN,
 		}),
 		new OptionGroup("RENDERER", new GameOption[] {
-				(com.badlogic.gdx.Gdx.app.getType() == ApplicationType.Desktop) ? 
+				(com.badlogic.gdx.Gdx.app.getType() == ApplicationType.Desktop) ?
 						GameOption.TARGET_FPS : GameOption.NULL,
 			GameOption.SHOW_FPS,
 		}),
@@ -108,6 +108,7 @@ public class OptionGroup {
 			GameOption.FORCE_SKIN_CURSOR,
 			GameOption.CURSOR_SIZE,
 			GameOption.DISABLE_CURSOR,
+			GameOption.WARNINGARROW_TINT_WHITE,
 		}),
 		new OptionGroup("Input", GameImage.MENU_NAV_INPUT),
 		new OptionGroup("MOUSE", new GameOption[] {
