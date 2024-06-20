@@ -67,7 +67,7 @@ public class ButtonMenu extends BasicGameState {
 	/** Menu states. */
 	public enum MenuState {
 		/** The exit confirmation screen. */
-		EXIT (new Button[] { Button.YES, Button.NO }) {
+		EXIT (new Button[] { Button.YES, Button.NO, Button.RESTART}) {
 			@Override
 			public String[] getTitle(GameContainer container, StateBasedGame game) {
 				return new String[] {
@@ -461,6 +461,13 @@ public class ButtonMenu extends BasicGameState {
 				game.enterState(Opsu.STATE_MAINMENU, new EmptyTransition(), new FadeInTransition());
 			}
 		},
+		RESTART ("Restart the game", Color.orange) {
+			@Override
+			public void click (GameContainer container,
+		StateBasedGame game) {
+				container.setForceExit(false);container.exit();
+			}
+		},
 		CLEAR_SCORES ("Clear local scores", Color.magenta) {
 			@Override
 			public void click(GameContainer container, StateBasedGame game) {
@@ -497,7 +504,7 @@ public class ButtonMenu extends BasicGameState {
 				MenuState ms = (node.beatmapIndex == -1 || node.getBeatmapSet().size() == 1) ?
 						MenuState.BEATMAP_DELETE_CONFIRM : MenuState.BEATMAP_DELETE_SELECT;
 				((ButtonMenu) game.getState(Opsu.STATE_BUTTONMENU)).setMenuState(ms, node);
-				game.enterState(Opsu.STATE_BUTTONMENU);
+				game.enterState(Opsu.STATE_BUTTONMENU, null, new FadeInTransition(Color.black, 100));
 			}
 		},
 		CALIBRATE ("Calibrate Offset...", Color.white) {
