@@ -138,7 +138,7 @@ public class OptionsOverlay extends AbstractComponent {
 
 	/** How long the mouse has been hovering over the navigation bar, for animations. */
 	private int navHoverTime;
-	
+
 	private final static int MAX_NAVHOVERTIME = 1500;
 
 	/** The current hovered option. */
@@ -191,7 +191,7 @@ public class OptionsOverlay extends AbstractComponent {
 
 	/** Whether or not a slider is currently being adjusted. */
 	private boolean isAdjustingSlider;
-	
+
 	private boolean isMaybeAdjustingSlider;
 	private int maybeAdjustx, maybeAdjusty;
 
@@ -267,18 +267,22 @@ public class OptionsOverlay extends AbstractComponent {
 		LINEALPHA = 0.8f,
 		INDICATOR_ALPHA = 0.8f;
 
+	/** Turn a color into its dark varient. */
+	private static final int darkColorDelta = -32;
+
 	/** Colors. */
 	private static final Color
 		COLOR_BG = new Color(Color.black),
 		COLOR_WHITE = new Color(Color.white),
+		COLOR_ACCENT = Options.getAccentColor(),
 		COLOR_PINK = new Color(Colors.PINK_OPTION),
 		COLOR_CYAN = new Color(88, 218, 254),
 		COLOR_GREY = new Color(55, 55, 57),
 		COLOR_BLUE = new Color(Colors.BLUE_BACKGROUND),
-		COLOR_COMBOBOX_HOVER = new Color(185, 19, 121),
+		COLOR_COMBOBOX_HOVER = new Color(COLOR_ACCENT.getRed() + darkColorDelta, COLOR_ACCENT.getGreen() + darkColorDelta, COLOR_ACCENT.getBlue() + darkColorDelta),
 		COLOR_INDICATOR = new Color(Color.black),
 		COLOR_NAV_BG = new Color(COLOR_BG),
-		COLOR_NAV_INDICATOR = new Color(COLOR_PINK),
+		COLOR_NAV_INDICATOR = new Color(COLOR_ACCENT),
 		COLOR_NAV_WHITE = new Color(COLOR_WHITE),
 		COLOR_NAV_FILTERED = new Color(37, 37, 37),
 		COLOR_NAV_INACTIVE = new Color(153, 153, 153),
@@ -411,6 +415,7 @@ public class OptionsOverlay extends AbstractComponent {
 		COLOR_NAV_BG.a = navigationAlpha;
 		COLOR_BG.a = BG_ALPHA * mainAlpha;
 		COLOR_WHITE.a = mainAlpha;
+		COLOR_ACCENT.a = mainAlpha;
 		COLOR_PINK.a = mainAlpha;
 		COLOR_CYAN.a = mainAlpha;
 		COLOR_GREY.a = mainAlpha * LINEALPHA;
@@ -499,7 +504,7 @@ public class OptionsOverlay extends AbstractComponent {
 		Fonts.MEDIUM.drawString(
 			x + navButtonSize + (width - navButtonSize - Fonts.MEDIUM.getWidth(subtitle)) / 2,
 			(int) (y + textChangeY - scrolling.getPosition()),
-			subtitle, COLOR_PINK
+			subtitle, COLOR_ACCENT
 		);
 
 		// selected option indicator
@@ -527,9 +532,9 @@ public class OptionsOverlay extends AbstractComponent {
 		if (!invalidSearchAnimation.isFinished()) {
 			invalidProgress = 1f - invalidSearchAnimation.getValue();
 			searchColor = new Color(0f, 0f, 0f, searchColor.a);
-			searchColor.r = COLOR_PINK.r + (1f - COLOR_PINK.r) * invalidProgress;
-			searchColor.g = COLOR_PINK.g + (1f - COLOR_PINK.g) * invalidProgress;
-			searchColor.b = COLOR_PINK.b + (1f - COLOR_PINK.b) * invalidProgress;
+			searchColor.r = COLOR_ACCENT.r + (1f - COLOR_ACCENT.r) * invalidProgress;
+			searchColor.g = COLOR_ACCENT.g + (1f - COLOR_ACCENT.g) * invalidProgress;
+			searchColor.b = COLOR_ACCENT.b + (1f - COLOR_ACCENT.b) * invalidProgress;
 			invalidProgress = 1f - invalidProgress;
 		}
 		String searchText = "Type to search!";
@@ -548,12 +553,12 @@ public class OptionsOverlay extends AbstractComponent {
 			ypos + Fonts.LARGE.getLineHeight() * 0.25f,
 			searchColor
 		);
-		
+
 		//
 		searchField.setBound((int)x, (int)ypos - textSearchYOffset, (int) (width-restartButton.getImage().getWidth() * 2.5f), textSearchYOffset * 2 + Fonts.LARGE.getLineHeight());
 		//
-		
-		g.resetTransform(); 
+
+		g.resetTransform();
 
 		// back arrow
 		backButton.setX(x + backButton.getImage().getWidth());
@@ -793,9 +798,9 @@ public class OptionsOverlay extends AbstractComponent {
 	private void renderCheckOption(GameOption option, int cy) {
 		// draw checkbox
 		if (option.getBooleanValue())
-			checkOnImg.draw(x + optionStartX, cy + controlImagePadding, COLOR_PINK);
+			checkOnImg.draw(x + optionStartX, cy + controlImagePadding, COLOR_ACCENT);
 		else
-			checkOffImg.draw(x + optionStartX, cy + controlImagePadding, COLOR_PINK);
+			checkOffImg.draw(x + optionStartX, cy + controlImagePadding, COLOR_ACCENT);
 
 		// draw option name
 		Fonts.MEDIUM.drawString(x + optionStartX + 30 * GameImage.getUIscale(), cy + optionTextOffsetY, option.getName(), COLOR_WHITE);
@@ -834,16 +839,16 @@ public class OptionsOverlay extends AbstractComponent {
 		float sliderValue = (float) (option.getIntegerValue() - option.getMinValue()) / (option.getMaxValue() - option.getMinValue());
 		float sliderBallPos = sliderStartX + (int) ((sliderWidth - controlImageSize) * sliderValue);
 		g.setLineWidth(3f);
-		g.setColor(COLOR_PINK);
+		g.setColor(COLOR_ACCENT);
 		if (sliderValue > 0.0001f)
 			g.drawLine(sliderStartX, cy + optionHeight / 2, sliderBallPos, cy + optionHeight / 2);
 		sliderBallImg.draw(sliderBallPos, cy + optionHeight / 2 - controlImageSize/2, COLOR_PINK);
 		if (sliderValue < 0.999f) {
-			float oldAlpha = COLOR_PINK.a;
-			COLOR_PINK.a *= 0.45f;
-			g.setColor(COLOR_PINK);
+			float oldAlpha = COLOR_ACCENT.a;
+			COLOR_ACCENT.a *= 0.45f;
+			g.setColor(COLOR_ACCENT);
 			g.drawLine(sliderBallPos + controlImageSize + 1, cy + optionHeight / 2, sliderEndX, cy + optionHeight / 2);
-			COLOR_PINK.a = oldAlpha;
+			COLOR_ACCENT.a = oldAlpha;
 		}
 	}
 
@@ -1262,7 +1267,7 @@ public class OptionsOverlay extends AbstractComponent {
 			scrolling.scrollToPosition(sectionPosition);
 		}
 	}
-	
+
 	@Override
 	public void mouseClicked(int button, int x, int y, int clickCount) {
 		if (!active || !contains(x, y))
@@ -1279,7 +1284,7 @@ public class OptionsOverlay extends AbstractComponent {
 		if (!active)
 			return;
 
-		
+
 		if (isMaybeAdjustingSlider) {
 			if (Math.abs(newx - maybeAdjustx) > container.getHeight()/100) {
 				isAdjustingSlider = true;
@@ -1361,15 +1366,15 @@ public class OptionsOverlay extends AbstractComponent {
 		if (UI.globalKeyPressed(key))
 			return;
 	}
-	
+
 	boolean keyEntry = false;
 	@Override
 	public void keyType(char c){
 		if (!active)
 			return;
-		
+
 		consumeEvent();
-		
+
 		if (keyEntry) {
 			keyEntry = false;
 			return;

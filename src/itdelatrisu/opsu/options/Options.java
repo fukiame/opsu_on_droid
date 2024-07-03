@@ -30,6 +30,7 @@ import itdelatrisu.opsu.beatmap.Beatmap;
 import itdelatrisu.opsu.beatmap.TimingPoint;
 import itdelatrisu.opsu.skins.Skin;
 import itdelatrisu.opsu.skins.SkinLoader;
+import itdelatrisu.opsu.ui.Colors;
 import itdelatrisu.opsu.ui.Fonts;
 import itdelatrisu.opsu.ui.UI;
 
@@ -58,6 +59,7 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
@@ -683,6 +685,10 @@ public class Options {
 					val = i;
 			}
 		},
+		UICOLOR_CUSTOM ("Customize interface color", "CustomUIColor", "Use your own color for the interface of opsu!", false),
+		UICOLOR_R ("Interface color Red", "CustomColorR", "Red color value.", 235, 0, 255),
+		UICOLOR_G ("Interface color Green", "CustomColorG", "Green color value.", 117, 0, 255),
+		UICOLOR_B ("Interface color Blue", "CustomColorB", "Blue color value.", 139, 0, 255),
 		CHECKPOINT ("Track checkpoint", "Checkpoint", "Press Ctrl+L while playing to load a checkpoint, and Ctrl+S to set one.", 0, 0, 1800) {
 			@Override
 			public String getValueString() {
@@ -1414,6 +1420,26 @@ public class Options {
 	 * @return true if disabled
 	 */
 	public static boolean isUpdaterDisabled() { return GameOption.DISABLE_UPDATER.getBooleanValue(); }
+
+	/**
+	 * Returns whether to use custom colors for UI.
+	 * @return whether to use custom colors
+	 */
+	public static boolean isColorCustom() {
+		return GameOption.UICOLOR_CUSTOM.getBooleanValue();
+	}
+
+	/**
+	 * Returns the accent color.
+	 * @return Color, combined by RGB
+	*/
+	public static Color getAccentColor() {
+		if (Options.isColorCustom()) {
+			return new Color(GameOption.UICOLOR_R.getIntegerValue(), GameOption.UICOLOR_G.getIntegerValue(), GameOption.UICOLOR_B.getIntegerValue());
+		} else {
+			return new Color(Colors.PINK_OPTION);
+		}
+	}
 
 	/**
 	 * Returns whether or not the beatmap watch service is enabled.
