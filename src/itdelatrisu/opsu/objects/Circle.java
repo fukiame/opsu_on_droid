@@ -58,7 +58,7 @@ public class Circle implements GameObject {
 	/** The color of this circle. */
 	private Color color;
 
-	/** Whether or not the circle result ends the combo streak. */
+	/** Whether the circle result ends the combo streak. */
 	private boolean comboEnd;
 
 	/**

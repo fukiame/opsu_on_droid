@@ -67,7 +67,7 @@ public class MusicController {
 	/** Thread for loading tracks. */
 	private static Thread trackLoader;
 
-	/** Whether or not the current track has ended. */
+	/** Whether the current track has ended. */
 	private static boolean trackEnded;
 
 	/** Whether the theme song is currently playing. */
@@ -95,7 +95,7 @@ public class MusicController {
 	 * Plays an audio file at the preview position.
 	 * If the audio file is already playing, then nothing will happen.
 	 * @param beatmap the beatmap to play
-	 * @param loop whether or not to loop the track
+	 * @param loop whether to loop the track
 	 * @param preview whether to start at the preview time (true) or beginning (false)
 	 */
 	public static void play(final Beatmap beatmap, final boolean loop, final boolean preview) {
@@ -137,7 +137,7 @@ public class MusicController {
 	 * Loads a track and plays it.
 	 * @param file the audio file
 	 * @param position the track position (in ms)
-	 * @param loop whether or not to loop the track
+	 * @param loop whether to loop the track
 	 */
 	private static void loadTrack(File file, int position, boolean loop) {
 		try {
@@ -176,7 +176,7 @@ public class MusicController {
 	/**
 	 * Plays the current track at the given position.
 	 * @param position the track position (in ms)
-	 * @param loop whether or not to loop the track
+	 * @param loop whether to loop the track
 	 */
 	public static void playAt(final int position, final boolean loop) {
 		if (trackExists()) {
@@ -441,7 +441,7 @@ public class MusicController {
 
 	/**
 	 * Plays the current track.
-	 * @param loop whether or not to loop the track
+	 * @param loop whether to loop the track
 	 */
 	public static void play(boolean loop) {
 		if (trackExists()) {
@@ -472,7 +472,7 @@ public class MusicController {
 	}
 
 	/**
-	 * Returns whether or not the current track has ended.
+	 * Returns whether the current track has ended.
 	 */
 	public static boolean trackEnded() { return trackEnded; }
 
@@ -497,12 +497,12 @@ public class MusicController {
 	}
 
 	/**
-	 * Returns whether or not the theme song is playing.
+	 * Returns whether the theme song is playing.
 	 */
 	public static boolean isThemePlaying() { return themePlaying; }
 
 	/**
-	 * Returns whether or not the volume of the current track, if any,
+	 * Returns whether the volume of the current track, if any,
 	 * has been dimmed.
 	 */
 	public static boolean isTrackDimmed() { return trackDimmed; }

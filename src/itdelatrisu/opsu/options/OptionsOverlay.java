@@ -189,7 +189,7 @@ public class OptionsOverlay extends AbstractComponent {
 	/** The padding for an option group title. */
 	private final int optionGroupPadding;
 
-	/** Whether or not a slider is currently being adjusted. */
+	/** Whether a slider is currently being adjusted. */
 	private boolean isAdjustingSlider;
 
 	private boolean isMaybeAdjustingSlider;

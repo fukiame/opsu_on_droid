@@ -432,7 +432,7 @@ public class MenuButton {
 	}
 
 	/**
-	 * Processes a hover action depending on whether or not the cursor
+	 * Processes a hover action depending on whether the cursor
 	 * is hovering over the button.
 	 * @param delta the delta interval
 	 * @param cx the x coordinate
@@ -443,7 +443,7 @@ public class MenuButton {
 	}
 
 	/**
-	 * Processes a hover action depending on whether or not the cursor
+	 * Processes a hover action depending on whether the cursor
 	 * is hovering over the button, only if the specified pixel of the
 	 * image has an alpha level above the given bound.
 	 * @param delta the delta interval
@@ -456,7 +456,7 @@ public class MenuButton {
 	}
 
 	/**
-	 * Processes a hover action depending on whether or not the cursor
+	 * Processes a hover action depending on whether the cursor
 	 * is hovering over the button.
 	 * @param delta the delta interval
 	 * @param isHover true if the cursor is currently hovering over the button
