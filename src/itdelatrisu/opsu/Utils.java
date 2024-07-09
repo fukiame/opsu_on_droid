@@ -810,10 +810,12 @@ public class Utils {
 
 		// install the all-trusting trust manager
 		try {
-			SSLContext sc = SSLContext.getInstance("SSL");
+			SSLContext sc = SSLContext.getInstance("TLSv1.2");
 			sc.init(null, enabled ? null : trustAllCerts, null);
 			HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
-		} catch (Exception e) {e.printStackTrace();}
+		} catch (Exception e) {
+			Log.warn("SSLContext error.", e);
+		}
 	}
 
 	/**
