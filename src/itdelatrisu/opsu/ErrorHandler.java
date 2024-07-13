@@ -23,11 +23,10 @@ import fluddokt.opsu.fake.GameOpsu;
 import fluddokt.opsu.fake.Log;
 import fluddokt.opsu.fake.gl.GL11;
 
-
-
+import itdelatrisu.opsu.ui.UI;
+import org.newdawn.slick.Color;
 /*
 import itdelatrisu.opsu.options.Options;
-import itdelatrisu.opsu.ui.UI;
 
 import java.awt.Cursor;
 import java.awt.Desktop;
@@ -48,7 +47,6 @@ import javax.swing.UIManager;
 
 
 import org.lwjgl.opengl.GL11;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.util.Log;
 import org.newdawn.slick.util.ResourceLoader;
 */
