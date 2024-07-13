@@ -335,8 +335,8 @@ public class Options {
 			@Override
 			public Object[] getItemList() {
 				if (itemList == null) {
-					int width = Display.getDesktopDisplayMode().getWidth();
-					int height = Display.getDesktopDisplayMode().getHeight();
+					int width = Display.getDisplayMode().getWidth();
+					int height = Display.getDisplayMode().getHeight();
 					List<Resolution> list = new ArrayList<Resolution>();
 					for (Resolution res : Resolution.values()) {
 						// only show resolutions that fit on the screen
