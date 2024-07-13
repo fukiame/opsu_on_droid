@@ -30,10 +30,10 @@ public class DynamicFreeTypeFont {
 	Font backParam;
 	int ascent, descent, height;
 	boolean useKerning = false;
-	
+
 	int thiscnt = 0;
 	static int cnt = 0;
-	
+
 	public DynamicFreeTypeFont(FileHandle font, Font fontParam) {
 		this.fontParam = fontParam;
 		Library library = FreeType.initFreeType();
@@ -64,13 +64,13 @@ public class DynamicFreeTypeFont {
 	//HashMap<Character, CharInfo> charmap = new HashMap<Character, CharInfo>();
 	IntMap<CharInfo> charmap = new IntMap<CharInfo>();
 	IntFloatMap charwidth = new IntFloatMap();
-	
+
 	Pixmap curPixmap;
 	Texture curTexture;
-	
+
 	LinkedList<Pixmap> pixmapList = new LinkedList<>();
 	LinkedList<Texture> textureList = new LinkedList<>();
-	
+
 
 	class CharInfo {
 		TextureRegion region;
@@ -105,14 +105,14 @@ public class DynamicFreeTypeFont {
 					float spacing = 0;//to26p6float(FreeType.getKerning(face, prevchrIndex, thisChrIndex,;
 							//FreeType.FT_KERNING_DEFAULT));
 					//prevchrIndex = thisChrIndex;
-					
-					//OpenType kerning via the 'GPOS' table is not supported! You need a higher-level library like HarfBuzz, Pango, or ICU, 
+
+					//OpenType kerning via the 'GPOS' table is not supported! You need a higher-level library like HarfBuzz, Pango, or ICU,
 					//System.out.println(spacing+" "+thischr);
 					if(spacing==0 && prevCharInfo != null)
 						spacing += prevCharInfo.horadvance;
 					x += spacing;
 				}*/
-				
+
 				CharInfo ci = getCharInfo(thischr);
 				TextureRegion tr = ci.region;
 				batch.draw(tr, x + ci.sBitmapLeft// xoffset
@@ -155,7 +155,7 @@ public class DynamicFreeTypeFont {
 		FreeType.loadChar(tface, c,
 		// FreeType.FT_LOAD_RENDER
 		// FreeType.FT_LOAD_DEFAULT
-				fontParam.size < 16 ? FreeType.FT_LOAD_DEFAULT : 
+				fontParam.size < 16 ? FreeType.FT_LOAD_DEFAULT :
 							FreeType.FT_LOAD_NO_HINTING
 							|FreeType.FT_LOAD_NO_BITMAP
 		// FreeType.FT_LOAD_NO_AUTOHINT
@@ -213,13 +213,13 @@ public class DynamicFreeTypeFont {
 			throw new GdxRuntimeException("Unknown Freetype pixel mode :"
 					+ bitmap.getPixelMode());
 		}
-		
+
 		int pixMapWidth = pixmap.getWidth();
 		if((fontParam.style&Font.BOLD) > 0){
 		//	pixMapWidth+=1;
 		}
-		
-		
+
+
 		// create a new page
 		if (curPixmap == null || y + pixmap.getHeight() > curPixmap.getHeight()) {
 			x = 0;
@@ -233,7 +233,7 @@ public class DynamicFreeTypeFont {
 			curPixmap.setColor(0);
 			curPixmap.fill();
 		}
-		
+
 		// cant fit width, go to next line
 		if (x + pixMapWidth > curPixmap.getWidth()) {
 			x = 0;
@@ -253,7 +253,7 @@ public class DynamicFreeTypeFont {
 			curPixmap.drawPixmap(pixmap, x, y);
 			Pixmap.setBlending(Blending.None);
 		}
-		
+
 
 		curTexture.load(new PixmapTextureData(curPixmap, null, false, false,
 				true));
@@ -276,15 +276,15 @@ public class DynamicFreeTypeFont {
 		ci.bitmapPitch = bitmap.getPitch();
 		ci.bitmapRows = bitmap.getRows();
 		ci.bitmapWidth = bitmap.getWidth();
-		
+
 		/*
 		System.out.println("char: "+c+"hradv:"+ci.horadvance+" xbear:"+ci.xbear+" ybear"+ci.ybear+" height"+ci.height+
 				" sBitmapTop"+ci.sBitmapTop+ " sBitmapLeft"+ci.sBitmapLeft
 				+" bitmapPitch"+ci.bitmapPitch+" bitmapRows"+ci.bitmapRows+" bitmapWidth"+ci.bitmapWidth
 				);*/
 		pixmap.dispose();
-		
-		 
+
+
 		return ci;
 	}
 
@@ -317,7 +317,7 @@ public class DynamicFreeTypeFont {
 	private float getCharWidth(char c) {
 		Face tface = charExist(face, c) ? face : backupface;
 		FreeType.loadChar(tface, c,
-				fontParam.size < 16 ? FreeType.FT_LOAD_DEFAULT : 
+				fontParam.size < 16 ? FreeType.FT_LOAD_DEFAULT :
 									FreeType.FT_LOAD_NO_HINTING
 				 |FreeType.FT_LOAD_NO_BITMAP
 		);
@@ -325,7 +325,7 @@ public class DynamicFreeTypeFont {
 		GlyphMetrics metrics = slot.getMetrics();
 		return to26p6float(metrics.getHoriAdvance());
 	}
-	
+
 	private boolean charExist(Face face, char c) {
 		return FreeType.getCharIndex(face, c) != 0;
 	}
@@ -344,7 +344,7 @@ public class DynamicFreeTypeFont {
 		for(Pixmap p : pixmapList)
 			p.dispose();
 		pixmapList.clear();
-		
+
 		for(Texture t : textureList)
 			t.dispose();
 		textureList.clear();
