@@ -10,9 +10,9 @@ public class Display {
 	}
 
 	static Resolution deskRes;
-	public static Resolution getDesktopDisplayMode() {
+	public static Resolution getDisplayMode() {
 		if(deskRes == null) {
-			DisplayMode d = Gdx.graphics.getDesktopDisplayMode();
+			DisplayMode d = Gdx.graphics.getDisplayMode();
 			deskRes = new Resolution(d.width, d.height);
 		}
 		return deskRes;
