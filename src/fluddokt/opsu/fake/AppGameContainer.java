@@ -5,7 +5,7 @@ import com.badlogic.gdx.Gdx;
 public class AppGameContainer extends GameContainer {
 
 	public static int containerWidth, containerHeight;
-	
+
 	public AppGameContainer(Game2 game) {
 		super((StateBasedGame) game);
 	}
@@ -21,7 +21,11 @@ public class AppGameContainer extends GameContainer {
 		AppGameContainer.containerWidth = containerWidth;
 		AppGameContainer.containerHeight = containerHeight;
 
-		Gdx.graphics.setDisplayMode(containerWidth, containerHeight, b);
+		if (b) {
+			Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+		} else {
+			Gdx.graphics.setWindowedMode(containerWidth, containerHeight);
+		}
 		width = Gdx.graphics.getWidth();
 		height = Gdx.graphics.getHeight();
 	}

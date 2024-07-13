@@ -154,12 +154,17 @@ public class GameContainer extends GUIContext{
 		// TODO Auto-generated method stub
 
 	}
-	public void setDefaultMouseCursor() {
-		Gdx.input.setCursorImage(null, 0, 0);
 
+	com.badlogic.gdx.graphics.Cursor c;
+
+	public void setDefaultMouseCursor() {
+		//Gdx.input.setCursorImage(null, 0, 0);
+		c = Gdx.graphics.newCursor(null, 0, 0);
+		Gdx.graphics.setCursor(c);
 	}
 	public void setMouseCursor(Cursor cursor, int x, int y) throws SlickException {
-		Gdx.input.setCursorImage(cursor.getPixmap(), x, y);
+		//Gdx.input.setCursorImage(cursor.getPixmap(), x, y);
+		Gdx.graphics.setCursor(c);
 
 	}
 	public double getAspectRatio() {

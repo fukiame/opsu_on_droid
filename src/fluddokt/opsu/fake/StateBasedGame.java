@@ -307,7 +307,8 @@ public abstract class StateBasedGame extends Game2 implements InputProcessor {
 	}
 
 	@Override
-	public boolean scrolled(int amount) {
+	public boolean scrolled(float a, float stub) {
+		int amount = (int) a;
 		for (GInputListener keylis : inputListener) {
 			keylis.consumeEvent = false;
 			keylis.mouseWheelMoved(-amount*120);
@@ -315,6 +316,11 @@ public abstract class StateBasedGame extends Game2 implements InputProcessor {
 				return true;
 		}
 		currentState.mouseWheelMoved(-amount);
+		return false;
+	}
+
+	@Override
+	public boolean touchCancelled (int screenX, int screenY, int pointer, int button) {
 		return false;
 	}
 

@@ -90,8 +90,8 @@ public class GL11 {
 	}
 
 	public static boolean glGetBoolean(int pname) {
-		Gdx.gl20.glGetBooleanv(pname, UtilBuff.prepareByte());
-		return UtilBuff.getByte() != 0;
+		Gdx.gl20.glGetBooleanv(pname, UtilBuff.prepare());
+		return UtilBuff.get() != 0;
 	}
 
 	public static void glDepthMask(boolean flag) {
