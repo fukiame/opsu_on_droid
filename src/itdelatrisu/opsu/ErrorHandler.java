@@ -22,9 +22,9 @@ import fluddokt.ex.DeviceInfo;
 import fluddokt.opsu.fake.GameOpsu;
 import fluddokt.opsu.fake.Log;
 import fluddokt.opsu.fake.gl.GL11;
+import fluddokt.opsu.fake.Color;
 
 import itdelatrisu.opsu.ui.UI;
-import org.newdawn.slick.Color;
 /*
 import itdelatrisu.opsu.options.Options;
 
