@@ -9,10 +9,10 @@ public class GL11 {
 	public static final int GL_TEXTURE_BINDING_2D = com.badlogic.gdx.graphics.GL20.GL_TEXTURE_BINDING_2D;
 	public static final int GL_TEXTURE_2D = com.badlogic.gdx.graphics.GL20.GL_TEXTURE_2D;
 	public static final int GL_TEXTURE_1D = GL_TEXTURE_2D;//GL20.GL_TEXTURE_1D;
-	
+
 	public static final int GL_COLOR_BUFFER_BIT = com.badlogic.gdx.graphics.GL20.GL_COLOR_BUFFER_BIT;
 	public static final int GL_DEPTH_BUFFER_BIT = com.badlogic.gdx.graphics.GL20.GL_DEPTH_BUFFER_BIT;
-	
+
 	//public static final int GL_QUADS = 0x10;//GL20.GL_QUADS;
 	public static final int GL_TRIANGLE_FAN = com.badlogic.gdx.graphics.GL20.GL_TRIANGLE_FAN;
 	public static final int GL_TRIANGLES =  com.badlogic.gdx.graphics.GL20.GL_TRIANGLES;
@@ -22,33 +22,33 @@ public class GL11 {
 	public static final int GL_BLEND = com.badlogic.gdx.graphics.GL20.GL_BLEND;
 	public static final int GL_ONE_MINUS_SRC_ALPHA = com.badlogic.gdx.graphics.GL20.GL_ONE_MINUS_SRC_ALPHA;
 	public static final int GL_SRC_ALPHA = com.badlogic.gdx.graphics.GL20.GL_SRC_ALPHA;
-	
+
 	public static final int GL_DEPTH_TEST = com.badlogic.gdx.graphics.GL20.GL_DEPTH_TEST;
 	public static final int GL_DEPTH_WRITEMASK = com.badlogic.gdx.graphics.GL20.GL_DEPTH_WRITEMASK;
-	
+
 	public static final int GL_TEXTURE_MIN_FILTER = com.badlogic.gdx.graphics.GL20.GL_TEXTURE_MIN_FILTER;
 	public static final int GL_TEXTURE_MAG_FILTER = com.badlogic.gdx.graphics.GL20.GL_TEXTURE_MAG_FILTER;
-	
+
 	public static final int GL_LINEAR_MIPMAP_LINEAR = com.badlogic.gdx.graphics.GL20.GL_LINEAR_MIPMAP_LINEAR;
 	public static final int GL_LINEAR = com.badlogic.gdx.graphics.GL20.GL_LINEAR;
 	public static final int GL_NEAREST = com.badlogic.gdx.graphics.GL20.GL_NEAREST;
 
 	public static final int GL_TEXTURE_WRAP_S = com.badlogic.gdx.graphics.GL20.GL_TEXTURE_WRAP_S;
 	public static final int GL_TEXTURE_WRAP_T = com.badlogic.gdx.graphics.GL20.GL_TEXTURE_WRAP_T;
-	
+
 	//public static final int GL_CLAMP = GL20.GL_CLAMP;
 	public static final int GL_CLAMP_TO_EDGE = com.badlogic.gdx.graphics.GL20.GL_CLAMP_TO_EDGE;
-	
+
 	//public static final int GL_PROJECTION = 0x11;//GL20.GL_PROJECTION;
 	//public static final int GL_MODELVIEW = 0x12;//GL20.GL_MODELVIEW;
-	
+
 	public static final int GL_TRUE = com.badlogic.gdx.graphics.GL20.GL_TRUE;
 	public static final int GL_FALSE = com.badlogic.gdx.graphics.GL20.GL_FALSE;
-	
+
 	public static final int GL_RGBA = com.badlogic.gdx.graphics.GL20.GL_RGBA;
 	public static final int GL_DEPTH_COMPONENT = com.badlogic.gdx.graphics.GL20.GL_DEPTH_COMPONENT;
 	public static final int GL_DEPTH_COMPONENT16 = com.badlogic.gdx.graphics.GL20.GL_DEPTH_COMPONENT16;
-	
+
 	public static final int GL_UNSIGNED_BYTE = com.badlogic.gdx.graphics.GL20.GL_UNSIGNED_BYTE;
 	public static final int GL_UNSIGNED_INT = com.badlogic.gdx.graphics.GL20.GL_UNSIGNED_INT;
 	public static final int GL_FLOAT = com.badlogic.gdx.graphics.GL20.GL_FLOAT;
@@ -59,7 +59,7 @@ public class GL11 {
 	public static final int GL_ALWAYS = com.badlogic.gdx.graphics.GL20.GL_ALWAYS;
 	public static final int GL_LINES = com.badlogic.gdx.graphics.GL20.GL_LINES;
 	public static final int GL_LEQUAL = com.badlogic.gdx.graphics.GL20.GL_LEQUAL;
-	
+
 	public static int glGetInteger(int pname) {
 		Gdx.gl20.glGetIntegerv(pname, UtilBuff.prepare());
 		return UtilBuff.get();
@@ -122,13 +122,13 @@ public class GL11 {
 	public static void glDeleteTextures(int texId) {
 		Gdx.gl20.glDeleteTextures(1, UtilBuff.prepare(texId));
 	}
-	
+
 	public static void glEnd() {
 		GL20.glDisableVertexAttribArray(texCoordLoc);
 		GL20.glDisableVertexAttribArray(vertLoc);
 		setRenderState(oldState);
 	}
-	
+
 	public static void glBegin(){
 		if(!inited) {
 			init();
@@ -138,7 +138,7 @@ public class GL11 {
 		GL20.glUseProgram(program);
 		GL20.glEnableVertexAttribArray(vertLoc);
 		GL20.glEnableVertexAttribArray(texCoordLoc);
-		
+
 		//GL11.glBindTexture(GL11.GL_TEXTURE_1D, 0);
 	}
 	static boolean inited = false;
@@ -158,7 +158,7 @@ public class GL11 {
 		int oldProgram;
 		int oldArrayBuffer;
 	}
-	
+
 	private static RenderState getRenderState() {
 		RenderState state = new RenderState();
 		state.smoothedPoly = GL11.glGetBoolean(GL11.GL_POLYGON_SMOOTH);
@@ -171,7 +171,7 @@ public class GL11 {
 		state.oldArrayBuffer = GL11.glGetInteger(GL15.GL_ARRAY_BUFFER_BINDING);
 		return state;
 	}
-	
+
 	private static void setRenderState(RenderState state) {
 		GL11.glDepthMask(state.depthWriteEnabled);
 		setGLState(GL11.GL_DEPTH_TEST, state.depthEnabled);
@@ -182,7 +182,7 @@ public class GL11 {
 		GL13.glActiveTexture(state.texUnit);
 		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, state.oldArrayBuffer);
 	}
-	
+
 	private static void setGLState(int cap, boolean state){
 		if(state)
 			GL11.glEnable(cap);
@@ -192,11 +192,11 @@ public class GL11 {
 	public static void init(){
 		if(program != 0)
 			System.out.println("Program != 0");
-		
+
 		program = GL20.glCreateProgram();
 		int vtxShdr = GL20.glCreateShader(GL20.GL_VERTEX_SHADER);
 		int frgShdr = GL20.glCreateShader(GL20.GL_FRAGMENT_SHADER);
-		GL20.glShaderSource(vtxShdr, 
+		GL20.glShaderSource(vtxShdr,
 				 "#version 100\n"
 				+ "\n"
 				+ "attribute vec4 in_position;\n"
@@ -214,7 +214,7 @@ public class GL11 {
 			String error = GL20.glGetShaderInfoLog(vtxShdr, 1024);
 			Log.error("Vertex Shader compilation failed.", new Exception(error));
 		}
-		GL20.glShaderSource(frgShdr, 
+		GL20.glShaderSource(frgShdr,
 				"#version 100\n"
 				+ "#ifdef GL_ES\n"
 				+ "precision mediump float;\n"
@@ -244,7 +244,7 @@ public class GL11 {
 		GL20.glAttachShader(program, frgShdr);
 		GL20.glLinkProgram(program);
 		System.out.println("INFO: "+GL20.glGetProgramInfoLog(program, 1024));
-		
+
 		res = GL20.glGetProgrami(program, GL20.GL_LINK_STATUS);
 		System.out.println("INFO2: "+GL20.glGetProgramInfoLog(program, 1024));
 		if (res != GL11.GL_TRUE) {

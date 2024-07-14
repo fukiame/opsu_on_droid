@@ -17,10 +17,10 @@ import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
 public class Image {
-	
+
 	private final static int ATLAS_SIZE = 512;
 	private final static int ATLAS_PAD = 1;
-	
+
 	TextureRegion tex;
 	float width, height;
 	private float alpha = 1f, rotation = 0;
@@ -28,19 +28,19 @@ public class Image {
 	String filename;
 	ImageRefInfo imginfo;
 	static LinkedHashMap<String, ImageRefInfo> imgmap = new LinkedHashMap<String, ImageRefInfo>();
-	
-	
+
+
 	static LinkedHashSet<TextureAtlas> allAtlas = new LinkedHashSet<>();
 	static TextureAtlas currentAtlas = null;
 	static int atlasX, atlasY, atlasHighY;
-	
+
 	static TextureRegion blank = new TextureRegion(new Texture(32, 32, Format.RGBA8888));
-	
+
 	Image parentImage;
 	FrameBuffer fb;
 	FBGraphics fbg;
 	Pixmap pixmap;
-	
+
 	private class FBGraphics extends Graphics{
 		FrameBuffer fb;
 		public FBGraphics(FrameBuffer fb) {
@@ -56,15 +56,15 @@ public class Image {
 		protected void unbind() {
 			FrameBuffer.unbind();
 		}
-		
+
 	}
-	
+
 	private class ImageRefInfo {
 		int refcnt = 0;
 		FileHandle fh;
 		String name;
 		TextureRegion region;
-		
+
 		TextureAtlas atlas;
 
 		//Atlas
@@ -94,7 +94,7 @@ public class Image {
 				atlas.remove(this);
 			}
 		}
-		
+
 		public void removeAll() {
 			refcnt = 0;
 			imgmap.remove(name);
@@ -102,7 +102,7 @@ public class Image {
 		}
 	}
 
-	
+
 	public Image(String filename) throws SlickException {
 		this.filename = filename;
 		//this.name = filename;
@@ -121,13 +121,13 @@ public class Image {
 				tex = blank;
 				return;
 			}
-				
+
 			if (p.getWidth() >= ATLAS_SIZE || p.getHeight() >= ATLAS_SIZE) {
 				//creates its own texture
 				TextureAtlas tatlas = new TextureAtlas(filename, fh, p);
 				tatlas.setFull();
 				imginfo = tatlas.getLastInfo();
-				
+
 			} else {
 				//try to add to current atlas
 				if (currentAtlas == null) {
@@ -164,7 +164,7 @@ public class Image {
 	private class TextureAtlas {
 		Texture tex;
 		AtlasTextureData data;
-		
+
 		//HashSet<ImageRefInfo> images = new HashSet<>();
 		public int wid, hei;
 		public TextureAtlas(String filename, FileHandle fh, Pixmap p) {
@@ -178,7 +178,7 @@ public class Image {
 			hei = data.ph;
 			add(filename, fh, p, 0, 0);
 		}
-		
+
 		public void setFull() {
 			data.isFull = true;
 			data.p.dispose();
@@ -212,7 +212,7 @@ public class Image {
 		public ImageRefInfo getLastInfo() {
 			return lastInfo;
 		}
-		
+
 	}
 	private class AtlasTextureData implements TextureData {
 		Pixmap p;
@@ -220,7 +220,7 @@ public class Image {
 		Format pformat;
 		boolean isFull = false;
 		boolean isDistroyed = false;
-		
+
 		LinkedHashSet<ImageRefInfo> imgs = new LinkedHashSet<>();
 
 		public AtlasTextureData(int wid, int hei) {
@@ -276,7 +276,7 @@ public class Image {
 
 		@Override
 		public boolean disposePixmap() {
-			if (isFull) 
+			if (isFull)
 				p = null;
 			return isFull;
 		}
@@ -312,7 +312,7 @@ public class Image {
 		public boolean isManaged() {
 			return true;
 		}
-		
+
 		public void dispose() {
 			if (p != null) {
 				p.dispose();
@@ -334,7 +334,7 @@ public class Image {
 	private int nextmultipleof4(int n) {
 		return ((n + 3) / 4) * 4;
 	}
-	
+
 	public Image(Image copy) {
 		//texinfo = copy.texinfo;
 		//texinfo.add(this);
@@ -365,10 +365,10 @@ public class Image {
 
 		float dx = copy.tex.getRegionWidth() / (float) copy.width;
 		float dy = copy.tex.getRegionHeight() / (float) copy.height;
-		tex = new TextureRegion(copy.tex, 
+		tex = new TextureRegion(copy.tex,
 				Math.round(x * dy),
 				Math.round((hei+y) * dy)-copy.tex.getRegionHeight(),
-				Math.round(wid * dx), 
+				Math.round(wid * dx),
 				-Math.round(hei * dy));
 		//tex.flip(false, true);
 		width = (tex.getRegionWidth() / dx);
@@ -436,7 +436,7 @@ public class Image {
 				fb.dispose();
 			}
 		}
-		
+
 		destroyed = true;
 	}
 
@@ -479,7 +479,7 @@ public class Image {
 		Graphics.getGraphics().drawTexture(getTextureRegion(), x, y,
 				w, h, rotation);
 	}
-	
+
 	public void drawCentered(float x, float y) {
 		drawCentered(x, y, Color.white);
 	}
@@ -490,7 +490,7 @@ public class Image {
 
 	public Image getSubImage(int x, int y, int w, int h) {
 		Image img = new Image(this, x, y, w, h);
-		
+
 		return img;
 	}
 
@@ -534,11 +534,11 @@ public class Image {
 
 	public void startUse() {
 		// TODO Auto-generated method stub
-		
+
 	}
 	public void endUse() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	Color imageColor = Color.white;
@@ -553,7 +553,7 @@ public class Image {
 		Graphics.getGraphics().setColor(imageColor);
 		Graphics.getGraphics().drawTexture(getTextureRegion(), x, y,
 				w, h, r);
-		
+
 	}
 
 	public void drawEmbedded(float x, float y, float w, float h, int angle) {
@@ -587,7 +587,7 @@ public class Image {
 		//System.out.println("All Atlas size:" + allAtlas.size());
 		//info();
 	}
-	
+
 	public static void info() {
 		System.out.println("All Atlas start:");
 		for(TextureAtlas atlas : allAtlas) {

@@ -25,9 +25,9 @@ public abstract class StateBasedGame extends Game2 implements InputProcessor {
 	int touchX = 0;
 	int touchY = 0;
 	long touchTime;
-	
+
 	Transition enterT, leaveT;
-	
+
 	public StateBasedGame(String name) {
 		this.title = name;
 		Display.setTitle(name);
@@ -48,7 +48,7 @@ public abstract class StateBasedGame extends Game2 implements InputProcessor {
 		oldState = currentState;
 		currentState = EMPTY_STATE;
 		nextState = bgs.get(newState);
-		
+
 	}
 
 	private boolean enterNextState() throws SlickException {
@@ -61,7 +61,7 @@ public abstract class StateBasedGame extends Game2 implements InputProcessor {
 			nextState = null;
 			touchX = 0;
 			touchY = 0;
-			
+
 			if (!currentState.inited) {
 				currentState.init(gc, this);
 				currentState.inited = true;
@@ -91,7 +91,7 @@ public abstract class StateBasedGame extends Game2 implements InputProcessor {
 	int lastEnteredState = 0;
 	public void render() throws SlickException {
 		int deltaTime = (int) (Gdx.graphics.getDeltaTime() * 1000);
-		
+
 		if(lastEnteredState > 0){
 			if(deltaTime > 32) {
 				lastEnteredState--;
@@ -99,7 +99,7 @@ public abstract class StateBasedGame extends Game2 implements InputProcessor {
 			else
 				lastEnteredState = 0;
 		}
-		
+
 		if (leaveT == null)
 			enterNextState();
 		{
@@ -232,7 +232,7 @@ public abstract class StateBasedGame extends Game2 implements InputProcessor {
 				return;
 		}
 		currentState.mouseReleased(button, x, y);
-		
+
 	}
 	private void mouseClicked(int button, int x, int y, int clickCount) {
 		for (GInputListener keylis : inputListener) {
@@ -242,7 +242,7 @@ public abstract class StateBasedGame extends Game2 implements InputProcessor {
 				return;
 		}
 		currentState.mouseClicked(button, x, y, clickCount);
-		
+
 	}
 	private void mouseDragged(int oldx, int oldy, int newx, int newy) {
 		for (GInputListener keylis : inputListener) {
@@ -263,7 +263,7 @@ public abstract class StateBasedGame extends Game2 implements InputProcessor {
 				mouseClicked(Input.MOUSE_RIGHT_BUTTON, oldx, oldy, 1);
 			}
 			mouseReleased(Input.MOUSE_RIGHT_BUTTON, oldx, oldy);
-			
+
 			gc.getInput().setMouseRighButtontDown(false);
 			rightIsPressed = false;
 		} else {
@@ -273,11 +273,11 @@ public abstract class StateBasedGame extends Game2 implements InputProcessor {
 				mouseClicked(button, screenX, screenY, 1);
 			}
 			mouseReleased(button, screenX, screenY);
-			
+
 			oldx = screenX;
 			oldy = screenY;
 		}
-		
+
 
 		return false;
 	}
