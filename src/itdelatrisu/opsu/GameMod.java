@@ -394,6 +394,7 @@ public enum GameMod {
 				RELAX.active = false;
 				AUTOPILOT.active = false;
 				CINEMA.active = false;
+				active = true;
 			}
 			if (AUTOPILOT.isActive() && SPUN_OUT.isActive()) {
 				if (this == AUTOPILOT)
